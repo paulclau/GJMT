@@ -26,3 +26,4 @@ res://Scripts/InteractionManager.gd
 res://Scenes/Interactable/InteractionManager.tscn
 res://Scripts/InteractionArea.gd
 res://Scenes/Interactable/InteractionArea/InteractionArea.tscn
+res://Scripts/ConcaveMeshSlicer.gd

@@ -1,7 +1,7 @@
+MeshInstance3D
 Area3D
 Label
 Node
-MeshInstance3D
 CSGSphere3D
 Marker3D
 RayCast3D

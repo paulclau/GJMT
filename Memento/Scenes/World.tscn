@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://m5rwdrfjohsw"]
+[gd_scene format=3 uid="uid://plgqgc366oje"]
 
-[ext_resource type="PackedScene" uid="uid://g5l32jf5tsus" path="res://Scenes/Player.tscn" id="1_5cjrv"]
+[ext_resource type="PackedScene" uid="uid://c6rp8h1qplyqr" path="res://Scenes/Player/Player.tscn" id="1_5cjrv"]
 
 [sub_resource type="Environment" id="Environment_ahg1b"]
 
