@@ -11,3 +11,14 @@ res://Scripts/Move.gd
 res://Scenes/PlayerVisuals.tscn
 res://Scripts/Idle.gd
 res://Scripts/Run.gd
+res://Scenes/Player/PlayerVisuals.tscn
+res://Scenes/Player/PlayerModel.tscn
+res://Scripts/States.gd
+res://Scripts/Sprint.gd
+res://Scenes/Player/Player.tscn
+res://Scripts/Downcast.gd
+res://Scripts/Midair.gd
+res://Scripts/JumpRun.gd
+res://Scripts/JumpSprint.gd
+res://Scripts/LandingRun.gd
+res://Scripts/LandingSprint.gd
