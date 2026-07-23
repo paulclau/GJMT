@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://m5rwdrfjohsw"]
 
 [ext_resource type="PackedScene" uid="uid://g5l32jf5tsus" path="res://Scenes/Player.tscn" id="1_5cjrv"]
+[ext_resource type="PackedScene" uid="uid://cowo8pijwxy4c" path="res://Scenes/DialogBox.tscn" id="2_j0p05"]
 
 [sub_resource type="Environment" id="Environment_ahg1b"]
 
@@ -21,3 +22,5 @@ shadow_enabled = true
 
 [node name="Player" parent="." unique_id=285178599 instance=ExtResource("1_5cjrv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Control" parent="Player" unique_id=869958813 instance=ExtResource("2_j0p05")]
