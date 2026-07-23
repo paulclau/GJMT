@@ -16,7 +16,7 @@ class_name Player
 
 @export_category("Camera")
 
-@export var mouse_sensitivity: float = 0.004
+@export var mouse_sensitivity: float = 0.002
 
 @export var min_look_angle: float = -40.0
 @export var max_look_angle: float = 60.0
@@ -55,8 +55,6 @@ func _physics_process(delta: float) -> void:
 	_update_fov(delta)
 	move_and_slide()
 
-
-
 # CAMERA LOOK
 func _handle_camera_look(event: InputEventMouseMotion) -> void:
 	# Rotate the player horizontally.
@@ -65,7 +63,6 @@ func _handle_camera_look(event: InputEventMouseMotion) -> void:
 	# Rotate the camera vertically.
 	camera.rotation.x -= event.relative.y * mouse_sensitivity
 	camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(min_look_angle), deg_to_rad(max_look_angle))
-
 
 # GRAVITY AND JUMPING
 func _apply_gravity(delta: float) -> void:
@@ -78,12 +75,7 @@ func _handle_jump() -> void:
 
 # MOVEMENT
 func _handle_movement(delta: float) -> void:
-	var input_direction := Input.get_vector(
-		"left",
-		"right",
-		"forward",
-		"backward"
-	)
+	var input_direction := Input.get_vector("left", "right", "forward", "backward")
 
 	var movement_direction := _get_movement_direction(input_direction)
 	var current_speed := sprint_speed if Input.is_action_pressed("sprint") else walk_speed
