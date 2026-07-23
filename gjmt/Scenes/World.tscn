@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://m5rwdrfjohsw"]
+
+[sub_resource type="Environment" id="Environment_ahg1b"]
+
+[node name="World" type="Node3D" unique_id=138928880]
+
+[node name="Map" type="Node3D" parent="." unique_id=132563164]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map" unique_id=1529780129]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(20, 1, 20)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map" unique_id=1283742224]
+environment = SubResource("Environment_ahg1b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map" unique_id=761336089]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
