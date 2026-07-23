@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://m5rwdrfjohsw"]
 
+[ext_resource type="PackedScene" uid="uid://g5l32jf5tsus" path="res://Scenes/Player.tscn" id="1_5cjrv"]
+
 [sub_resource type="Environment" id="Environment_ahg1b"]
 
 [node name="World" type="Node3D" unique_id=138928880]
@@ -16,3 +18,6 @@ environment = SubResource("Environment_ahg1b")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map" unique_id=761336089]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
+
+[node name="Player" parent="." unique_id=285178599 instance=ExtResource("1_5cjrv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
