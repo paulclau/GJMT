@@ -2,64 +2,124 @@
 class_name MeshSlicer
 extends Node
 
-static var _root:Window = Engine.get_main_loop().root
+
+static var _root: Window = Engine.get_main_loop().root
+
 
 ## Slice a mesh in half.
-## Returns an array containing the 2 half of the sliced mesh. [br] [br]
-##[code]slice_transform[/code] is the transform of a the slicing plane relative to the mesh, with the plane normal facing z axis. [br]
-##[code]mesh[/code] is the mesh that is going to be sliced. [br]
-##[code]cross_section_material[/code] is an optional parameter to set the material for the cross-section of the sliced meshes.
-static func slice_mesh(slice_transform: Transform3D, mesh: Mesh, cross_section_material: Material = null) -> Array[ArrayMesh]:
-	var combiner = CSGCombiner3D.new()
+## Returns an array containing the 2 halves of the sliced mesh.
+static func slice_mesh(
+	slice_transform: Transform3D,
+	mesh: Mesh,
+	cross_section_material: Material = null
+) -> Array[ArrayMesh]:
 
-	var obj_csg:CSGMesh3D = CSGMesh3D.new() # CSG that hold the main mesh
+	var combiner := CSGCombiner3D.new()
+
+	var obj_csg := CSGMesh3D.new()
 	obj_csg.mesh = mesh
 
-	var slicer_csg:CSGMesh3D = CSGMesh3D.new() # CSG that is use to cut off the mesh
-	slicer_csg.mesh = BoxMesh.new()
-	slicer_csg.mesh.material = cross_section_material
+	var slicer_csg := CSGMesh3D.new()
 
-	_root.add_child(combiner)
+	var box_mesh := BoxMesh.new()
+	box_mesh.material = cross_section_material
+	slicer_csg.mesh = box_mesh
+
+
+	# Add the temporary CSG nodes after the current scene setup is finished.
+	_root.call_deferred("add_child", combiner)
+
+	# Wait until the deferred add_child has happened.
+	await _root.get_tree().process_frame
+
+
+	# Add the mesh CSG nodes.
 	combiner.add_child(obj_csg)
 	combiner.add_child(slicer_csg)
-	slicer_csg.transform = slice_transform
+
+	# Wait for the children to enter the scene tree.
+	await _root.get_tree().process_frame
 
 
-	# Wrap the slicer CSG box on one side of the mesh
+	# Find the bounds of the mesh in slicing-plane local space.
+	var max_at := Vector3(-INF, -INF, -INF)
+	var min_at := Vector3(INF, INF, INF)
 
-	var max_at = Vector3(-INF,-INF,-INF)
-	var min_at = Vector3(INF,INF,INF)
+	var inverse_transform := slice_transform.affine_inverse()
+
 	for v in mesh.get_faces():
-		var lv = slicer_csg.to_local(v)
-		max_at = max_at.max(lv)
-		min_at = min_at.min(lv)
 
-	# Made it a bit larger than a perfect fit, to make sure the slicer CSG is fully wrapped around the mesh.
-	max_at += Vector3(.1,.1,.1)
-	min_at -= Vector3(.1,.1,.1)
+		# Convert the vertex into slicing-plane local space.
+		var local_vertex := inverse_transform * v
 
-	min_at.z = 0
-	slicer_csg.position = slicer_csg.to_global((max_at+min_at)/2.0)
-	slicer_csg.mesh.size = (max_at-min_at)
+		max_at = max_at.max(local_vertex)
+		min_at = min_at.min(local_vertex)
 
 
-	# Slice the mesh
-	var out_mesh:Mesh
-	var out_mesh2:Mesh
+	# Make the slicer slightly larger than the mesh.
+	max_at += Vector3(0.1, 0.1, 0.1)
+	min_at -= Vector3(0.1, 0.1, 0.1)
+
+
+	# Keep one side of the mesh.
+	min_at.z = 0.0
+
+
+	# Calculate the slicer's position and size.
+	var center := (max_at + min_at) / 2.0
+	var size := max_at - min_at
+
+
+	# Apply the slicing plane transform.
+	slicer_csg.transform = slice_transform
+	slicer_csg.position = slice_transform * center
+	slicer_csg.mesh.size = size
+
+
+	# Wait for the CSG nodes to update.
+	await _root.get_tree().process_frame
+
+
+	# ==================================================
+	# FIRST HALF
+	# ==================================================
 
 	slicer_csg.operation = CSGShape3D.OPERATION_SUBTRACTION
+
 	combiner._update_shape()
-	var meshes = combiner.get_meshes()
-	if meshes:
+
+	await _root.get_tree().process_frame
+
+	var meshes := combiner.get_meshes()
+
+	var out_mesh: ArrayMesh = null
+
+	if meshes.size() > 1:
 		out_mesh = meshes[1]
 
+
+	# ==================================================
+	# SECOND HALF
+	# ==================================================
+
 	slicer_csg.operation = CSGShape3D.OPERATION_INTERSECTION
+
 	combiner._update_shape()
+
+	await _root.get_tree().process_frame
+
 	meshes = combiner.get_meshes()
-	if meshes:
+
+	var out_mesh2: ArrayMesh = null
+
+	if meshes.size() > 1:
 		out_mesh2 = meshes[1]
 
-	# clean up
+
+	# ==================================================
+	# CLEAN UP
+	# ==================================================
+
 	combiner.queue_free()
 
 
