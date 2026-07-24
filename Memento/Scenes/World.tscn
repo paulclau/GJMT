@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://plgqgc366oje"]
 
 [ext_resource type="Script" uid="uid://dowfhttnw7njr" path="res://Scripts/World.gd" id="1_j0p05"]
+[ext_resource type="Script" uid="uid://busknf2yft5nl" path="res://Scripts/Pumpkin.gd" id="2_5nsto"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_j0p05"]
+[ext_resource type="Script" uid="uid://bkn7bhxt55gdm" path="res://Scripts/OuterShell.gd" id="3_gjpho"]
 
 [sub_resource type="Environment" id="Environment_ahg1b"]
 
@@ -11,6 +13,16 @@
 albedo_color = Color(1, 1, 0.0627451, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ahg1b"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j0p05"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gjpho"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gjpho"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ahg1b"]
+size = Vector3(0.8, 0.8, 0.8)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
@@ -46,9 +58,27 @@ material = SubResource("StandardMaterial3D_6jw4u")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CarvingObject/StaticBody3D" unique_id=710810751]
 shape = SubResource("BoxShape3D_ahg1b")
 
+[node name="CarvingShaderMask" type="Node3D" parent="Map" unique_id=2072358653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6909552, 1.3919476, 0)
+script = ExtResource("2_5nsto")
+
+[node name="Outer" type="MeshInstance3D" parent="Map/CarvingShaderMask" unique_id=2008846254]
+mesh = SubResource("BoxMesh_j0p05")
+surface_material_override/0 = SubResource("StandardMaterial3D_gjpho")
+script = ExtResource("3_gjpho")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/CarvingShaderMask/Outer" unique_id=1280937576]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/CarvingShaderMask/Outer/StaticBody3D" unique_id=246275717]
+shape = SubResource("ConcavePolygonShape3D_gjpho")
+
+[node name="Inner" type="MeshInstance3D" parent="Map/CarvingShaderMask" unique_id=132374443]
+mesh = SubResource("BoxMesh_ahg1b")
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=285178599]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("2_j0p05")
+carve_sensitivity_multiplier = 0.1
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")

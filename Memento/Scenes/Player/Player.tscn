@@ -8,6 +8,8 @@
 
 [node name="Player" type="CharacterBody3D" unique_id=285178599]
 script = ExtResource("1_rpqav")
+carve_sensitivity_multiplier = 0.163
+sensitivity_smoothing = 5.0
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")

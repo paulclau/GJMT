@@ -21,6 +21,14 @@ class_name Player
 @export var min_look_angle: float = -40.0
 @export var max_look_angle: float = 60.0
 
+@export_category("Carving Friction")
+
+@export var carve_action: String = "carve" # must match the action name used in Pumpkin.gd
+@export_range(0.0, 1.0) var carve_sensitivity_multiplier: float = 0.2 # lower = heavier resistance while carving
+@export var sensitivity_smoothing: float = 5.0 # higher = snaps in faster, lower = eases in gradually
+
+var current_sensitivity: float
+
 @export_category("Head Bob")
 
 @export var bob_frequency: float = 2.4
@@ -42,6 +50,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 # LIFECYCLE
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	current_sensitivity = mouse_sensitivity
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -53,16 +62,26 @@ func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
 	_update_head_bob(delta)
 	_update_fov(delta)
+	_update_carve_friction(delta)
 	move_and_slide()
 
 # CAMERA LOOK
 func _handle_camera_look(event: InputEventMouseMotion) -> void:
 	# Rotate the player horizontally.
-	rotate_y(-event.relative.x * mouse_sensitivity)
-
+	rotate_y(-event.relative.x * current_sensitivity)
+	
 	# Rotate the camera vertically.
-	camera.rotation.x -= event.relative.y * mouse_sensitivity
+	camera.rotation.x -= event.relative.y * current_sensitivity
 	camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(min_look_angle), deg_to_rad(max_look_angle))
+
+# CARVE FRICTION
+# While the carve button is held, ease sensitivity down so aiming the knife feels heavier and more deliberate
+func _update_carve_friction(delta: float) -> void:
+	var target_sensitivity := mouse_sensitivity
+	if Input.is_action_pressed(carve_action):
+		target_sensitivity = mouse_sensitivity * carve_sensitivity_multiplier
+		
+	current_sensitivity = lerp(current_sensitivity, target_sensitivity, delta * sensitivity_smoothing)
 
 # GRAVITY AND JUMPING
 func _apply_gravity(delta: float) -> void:
@@ -76,7 +95,6 @@ func _handle_jump() -> void:
 # MOVEMENT
 func _handle_movement(delta: float) -> void:
 	var input_direction := Input.get_vector("left", "right", "forward", "backward")
-
 	var movement_direction := _get_movement_direction(input_direction)
 	var current_speed := sprint_speed if Input.is_action_pressed("sprint") else walk_speed
 	if is_on_floor():
@@ -87,7 +105,6 @@ func _handle_movement(delta: float) -> void:
 
 func _get_movement_direction(input_direction: Vector2) -> Vector3:
 	var direction := Vector3(input_direction.x, 0.0, input_direction.y)
-	# Movement follows the player's horizontal rotation.
 	direction = global_transform.basis * direction
 	return direction.normalized()
 
