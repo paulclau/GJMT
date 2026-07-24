@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://6w7bo0vux227"]
+
+[ext_resource type="Script" uid="uid://busknf2yft5nl" path="res://Scripts/Pumpkin.gd" id="1_snol5"]
+[ext_resource type="Script" uid="uid://bkn7bhxt55gdm" path="res://Scripts/OuterShell.gd" id="2_cec63"]
+[ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="3_cec63"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_j0p05"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gjpho"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_gjpho"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ahg1b"]
+size = Vector3(0.8, 0.8, 0.8)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cec63"]
+radius = 1.0
+
+[node name="CarvingShaderMask" type="Node3D" unique_id=292875006]
+script = ExtResource("1_snol5")
+
+[node name="Outer" type="MeshInstance3D" parent="." unique_id=131682687]
+mesh = SubResource("BoxMesh_j0p05")
+surface_material_override/0 = SubResource("StandardMaterial3D_gjpho")
+script = ExtResource("2_cec63")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Outer" unique_id=1687729788]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Outer/StaticBody3D" unique_id=1678443955]
+shape = SubResource("ConcavePolygonShape3D_gjpho")
+
+[node name="Inner" type="MeshInstance3D" parent="." unique_id=1527662138]
+mesh = SubResource("BoxMesh_ahg1b")
+
+[node name="InteractionArea" parent="." unique_id=1023657923 instance=ExtResource("3_cec63")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=895935037]
+shape = SubResource("SphereShape3D_cec63")

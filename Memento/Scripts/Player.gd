@@ -23,10 +23,8 @@ class_name Player
 
 @export_category("Carving Friction")
 
-@export var carve_action: String = "carve" # must match the action name used in Pumpkin.gd
 @export_range(0.0, 1.0) var carve_sensitivity_multiplier: float = 0.2 # lower = heavier resistance while carving
 @export var sensitivity_smoothing: float = 5.0 # higher = snaps in faster, lower = eases in gradually
-
 var current_sensitivity: float
 
 @export_category("Head Bob")
@@ -45,6 +43,12 @@ var bob_time: float = 0.0
 @onready var camera_mount: Node3D = $CameraMount
 @onready var camera: Camera3D = $CameraMount/PlayerCam
 
+@export_category("Carve Mode")
+var is_carving_mode: bool = false
+var active_carve_camera: Camera3D = null
+var virtual_mouse_pos: Vector2 = Vector2.ZERO
+@export var carve_reticle: Control
+
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # LIFECYCLE
@@ -53,35 +57,53 @@ func _ready() -> void:
 	current_sensitivity = mouse_sensitivity
 
 func _unhandled_input(event: InputEvent) -> void:
+	if is_carving_mode:
+		return 
 	if event is InputEventMouseMotion:
 		_handle_camera_look(event)
 
+# While carving, the mouse just moves a free cursor rather than rotating the
+# camera — so "sensitivity" here means damping how far the cursor moves per
+# pixel of real mouse motion, then re-syncing the OS cursor to match.
+func _handle_carve_cursor(event: InputEventMouseMotion) -> void:
+	virtual_mouse_pos += event.relative * carve_sensitivity_multiplier
+
+	var viewport_size := get_viewport().get_visible_rect().size
+	virtual_mouse_pos.x = clamp(virtual_mouse_pos.x, 0.0, viewport_size.x)
+	virtual_mouse_pos.y = clamp(virtual_mouse_pos.y, 0.0, viewport_size.y)
+
+	get_viewport().warp_mouse(virtual_mouse_pos)
+
 func _physics_process(delta: float) -> void:
+	if is_carving_mode:
+		_update_carve_cursor(delta)
+		_apply_gravity(delta)
+		move_and_slide()  # keeps them grounded while frozen
+		return
+	
 	_apply_gravity(delta)
 	_handle_jump()
 	_handle_movement(delta)
 	_update_head_bob(delta)
 	_update_fov(delta)
-	_update_carve_friction(delta)
 	move_and_slide()
+
+func _update_carve_cursor(delta: float) -> void:
+	var real_mouse_pos := get_viewport().get_mouse_position()
+	virtual_mouse_pos = virtual_mouse_pos.lerp(real_mouse_pos, delta * sensitivity_smoothing * carve_sensitivity_multiplier * 10.0)
+	
+	if virtual_mouse_pos.distance_to(real_mouse_pos) < 1.0:
+		virtual_mouse_pos = real_mouse_pos
+
+	if carve_reticle:
+		carve_reticle.position = virtual_mouse_pos - carve_reticle.size / 2.0
 
 # CAMERA LOOK
 func _handle_camera_look(event: InputEventMouseMotion) -> void:
-	# Rotate the player horizontally.
-	rotate_y(-event.relative.x * current_sensitivity)
+	rotate_y(-event.relative.x * mouse_sensitivity)
 	
-	# Rotate the camera vertically.
-	camera.rotation.x -= event.relative.y * current_sensitivity
+	camera.rotation.x -= event.relative.y * mouse_sensitivity
 	camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(min_look_angle), deg_to_rad(max_look_angle))
-
-# CARVE FRICTION
-# While the carve button is held, ease sensitivity down so aiming the knife feels heavier and more deliberate
-func _update_carve_friction(delta: float) -> void:
-	var target_sensitivity := mouse_sensitivity
-	if Input.is_action_pressed(carve_action):
-		target_sensitivity = mouse_sensitivity * carve_sensitivity_multiplier
-		
-	current_sensitivity = lerp(current_sensitivity, target_sensitivity, delta * sensitivity_smoothing)
 
 # GRAVITY AND JUMPING
 func _apply_gravity(delta: float) -> void:
@@ -141,3 +163,24 @@ func _update_fov(delta: float) -> void:
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
 	var target_fov := base_fov + (fov_change * horizontal_speed)
 	camera.fov = lerp(camera.fov, target_fov, fov_smoothing * delta)
+
+func enter_carve_mode(cam: Camera3D) -> void:
+	is_carving_mode = true
+	active_carve_camera = cam
+	velocity = Vector3.ZERO
+	camera.current = false
+	cam.current = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)  # hidden, but NOT confined — position still tracks normally
+	virtual_mouse_pos = get_viewport().get_mouse_position()
+	if carve_reticle:
+		carve_reticle.show()
+
+func exit_carve_mode() -> void:
+	is_carving_mode = false
+	if is_instance_valid(active_carve_camera):
+		active_carve_camera.current = false
+	active_carve_camera = null
+	camera.current = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if carve_reticle:
+		carve_reticle.hide()

@@ -59,24 +59,18 @@ func _process(_delta):
 
 func _sort_by_distance_to_player(area1, area2):
 	var player = get_player()
-
 	if !is_instance_valid(player):
 		return false
-
+	
 	if !is_instance_valid(area1):
 		return false
-
+	
 	if !is_instance_valid(area2):
 		return true
-
-	var area1_to_player = player.global_position.distance_to(
-		area1.global_position
-	)
-
-	var area2_to_player = player.global_position.distance_to(
-		area2.global_position
-	)
-
+	
+	var area1_to_player = player.global_position.distance_to(area1.global_position)
+	
+	var area2_to_player = player.global_position.distance_to(area2.global_position)
 	return area1_to_player < area2_to_player
 
 
@@ -87,12 +81,12 @@ func _input(event):
 			func(area):
 				return is_instance_valid(area)
 		)
-
+		
 		if active_areas.size() > 0:
 			can_interact = false
 			label.hide()
-
+			
 			if is_instance_valid(active_areas[0]):
 				await active_areas[0].interact.call()
-
+			
 			can_interact = true
