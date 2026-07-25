@@ -87,9 +87,8 @@ shadow_enabled = true
 [node name="CarvingCam" type="Camera3D" parent="Map" unique_id=1892364597]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.3868055, 1.4092767, 0)
 
-[node name="CarvingShaderMask" parent="Map" unique_id=292875006 node_paths=PackedStringArray("player_camera", "carve_camera", "player") instance=ExtResource("2_5nsto")]
+[node name="CarvingShaderMask" parent="Map" unique_id=292875006 node_paths=PackedStringArray("carve_camera", "player") instance=ExtResource("2_5nsto")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7385523, 1.4509995, 0)
-player_camera = NodePath("../../Player/CameraMount/PlayerCam")
 carve_camera = NodePath("../CarvingCam")
 player = NodePath("../../Player")
 
@@ -117,17 +116,16 @@ shape = SubResource("SphereShape3D_ahg1b")
 [node name="SeatPoint" type="Marker3D" parent="Map/WheelChair" unique_id=615752246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57002264, 0)
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model", "wheelchair_mesh") groups=["player"]]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_mask = 2
 script = ExtResource("2_j0p05")
+carve_time_limit = 30.0
 carve_sensitivity_multiplier = 0.1
 sensitivity_smoothing = 4.0
-carve_time_limit = 30.0
 carve_reticle = NodePath("../CanvasLayer/CarveReticle")
 carve_timer_label = NodePath("../CanvasLayer/CarveTimerLabel")
 player_model = NodePath("Mesh")
-wheelchair_mesh = NodePath("WheelChairMesh")
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")

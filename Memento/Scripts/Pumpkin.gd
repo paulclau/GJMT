@@ -64,10 +64,8 @@ func _bake_face_uv_lookup(mesh: Mesh) -> void:
 		array_mesh = ArrayMesh.new()
 		var arrays: Array = mesh.surface_get_arrays(0)
 		array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-
 	var mdt := MeshDataTool.new()
 	mdt.create_from_surface(array_mesh, 0)
-
 	for i in mdt.get_face_count():
 		var face_data := {"verts": [], "uvs": []}
 		for j in range(3):
@@ -80,21 +78,21 @@ func _closest_face_uv(point: Vector3) -> Variant:
 	var best_dist := INF
 	var best_uv := Vector2.ZERO
 	var found := false
-
+	
 	for face in mesh_faces:
 		var bary: Variant = _barycentric(point, face.verts[0], face.verts[1], face.verts[2])
 		if bary == null:
 			continue
-
+		
 		var b: Vector3 = bary
 		var hit_on_face: Vector3 = face.verts[0]*b.x + face.verts[1]*b.y + face.verts[2]*b.z
 		var dist: float = point.distance_to(hit_on_face)
-
+		
 		if dist < best_dist:
 			best_dist = dist
 			best_uv = face.uvs[0]*b.x + face.uvs[1]*b.y + face.uvs[2]*b.z
 			found = true
-
+		
 	if found:
 		return best_uv
 	return null
@@ -103,19 +101,19 @@ func _barycentric(p: Vector3, a: Vector3, b: Vector3, c: Vector3) -> Variant:
 	var v0 := b - a
 	var v1 := c - a
 	var v2 := p - a
-
+	
 	var d00 := v0.dot(v0)
 	var d01 := v0.dot(v1)
 	var d11 := v1.dot(v1)
 	var d20 := v2.dot(v0)
 	var d21 := v2.dot(v1)
-
+	
 	var denom := d00 * d11 - d01 * d01
 	if abs(denom) < 0.0001:
 		return null
-
+	
 	var v := (d11 * d20 - d01 * d21) / denom
 	var w := (d00 * d21 - d01 * d20) / denom
 	var u := 1.0 - v - w
-
+	
 	return Vector3(u, v, w)
