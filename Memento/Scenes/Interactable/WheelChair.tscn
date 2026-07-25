@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b72biyj7a0hej"]
+
+[ext_resource type="Script" uid="uid://cxeeu0t5v1538" path="res://Scripts/WheelChair.gd" id="1_4xe6d"]
+[ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="1_y6337"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4owis"]
+albedo_color = Color(0.4627451, 0.28235295, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c4dyq"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4xe6d"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
+radius = 1.0
+
+[node name="WheelChair" type="Node3D" unique_id=1228502930]
+script = ExtResource("1_4xe6d")
+
+[node name="WheelChairMesh" type="MeshInstance3D" parent="." unique_id=225113444]
+material_override = SubResource("StandardMaterial3D_4owis")
+mesh = SubResource("BoxMesh_c4dyq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WheelChairMesh" unique_id=1951300307]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WheelChairMesh/StaticBody3D" unique_id=1681072744]
+shape = SubResource("ConcavePolygonShape3D_4xe6d")
+
+[node name="InteractionArea" parent="." unique_id=1023657923 instance=ExtResource("1_y6337")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=544055281]
+shape = SubResource("SphereShape3D_ahg1b")
+
+[node name="SeatPoint" type="Marker3D" parent="." unique_id=615752246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57002264, 0)

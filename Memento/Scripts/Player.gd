@@ -58,12 +58,30 @@ var time_remaining: float = 0.
 var carve_started: bool = false
 var label_hide_countdown: float = 0.0
 
+@export_category("Wheelchair Mode")
+@export var wheelchair_move_speed: float = 2.0 # forward/backward speed while in wheelchair
+@export var wheelchair_turn_speed: float = 1.5 # radians/sec, how fast left/right rotates the chair
+@export var wheelchair_acceleration: float = 10.0 # snappier accel since it's a slower top speed
+@export var wheelchair_shake_amplitude: float = 0.015 # small, subtle jitter
+@export var wheelchair_shake_frequency: float = 14.0 # higher = faster/jittery, lower = slower wobble
+@export var wheelchair_mesh: Node3D # the wheelchair model, child of Player
+@export var wheelchair_camera_height: float = -0.4 # how much lower the camera sits, relative to standing (negative = down)
+@export var wheelchair_height_transition_speed: float = 4.0 # how fast the camera eases to sitting height
+@export var wheelchair_yaw_limit: float = 60.0
+
+var is_wheelchair_mode: bool = false
+var wheelchair_shake_time: float = 0.0
+var wheelchair_look_yaw: float = 0.0 
+
+var standing_camera_mount_y: float = 0.0
+
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # LIFECYCLE
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	current_sensitivity = mouse_sensitivity
+	standing_camera_mount_y = camera_mount.position.y
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_carving_mode:
@@ -80,7 +98,7 @@ func _handle_carve_cursor(event: InputEventMouseMotion) -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	virtual_mouse_pos.x = clamp(virtual_mouse_pos.x, 0.0, viewport_size.x)
 	virtual_mouse_pos.y = clamp(virtual_mouse_pos.y, 0.0, viewport_size.y)
-
+	
 	get_viewport().warp_mouse(virtual_mouse_pos)
 
 func _physics_process(delta: float) -> void:
@@ -95,6 +113,7 @@ func _physics_process(delta: float) -> void:
 	_handle_movement(delta)
 	_update_head_bob(delta)
 	_update_fov(delta)
+	_update_camera_height(delta)
 	move_and_slide()
 
 func _process(delta: float) -> void:
@@ -106,13 +125,18 @@ func _update_carve_cursor(delta: float) -> void:
 	
 	if virtual_mouse_pos.distance_to(real_mouse_pos) < 1.0:
 		virtual_mouse_pos = real_mouse_pos
-
+	
 	if carve_reticle:
 		carve_reticle.position = virtual_mouse_pos - carve_reticle.size / 2.0
 
 # CAMERA LOOK
 func _handle_camera_look(event: InputEventMouseMotion) -> void:
-	rotate_y(-event.relative.x * mouse_sensitivity)
+	if is_wheelchair_mode:
+		wheelchair_look_yaw -= event.relative.x * mouse_sensitivity
+		wheelchair_look_yaw = clamp(wheelchair_look_yaw, deg_to_rad(-wheelchair_yaw_limit), deg_to_rad(wheelchair_yaw_limit))
+		camera_mount.rotation.y = wheelchair_look_yaw
+	else:
+		rotate_y(-event.relative.x * mouse_sensitivity)
 	
 	camera.rotation.x -= event.relative.y * mouse_sensitivity
 	camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(min_look_angle), deg_to_rad(max_look_angle))
@@ -123,11 +147,17 @@ func _apply_gravity(delta: float) -> void:
 		velocity.y -= gravity * delta
 
 func _handle_jump() -> void:
+	if is_wheelchair_mode:
+		return
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
 # MOVEMENT
 func _handle_movement(delta: float) -> void:
+	if is_wheelchair_mode:
+		_handle_wheelchair_movement(delta)
+		return
+	
 	var input_direction := Input.get_vector("left", "right", "forward", "backward")
 	var movement_direction := _get_movement_direction(input_direction)
 	var current_speed := sprint_speed if Input.is_action_pressed("sprint") else walk_speed
@@ -135,7 +165,6 @@ func _handle_movement(delta: float) -> void:
 		_move_on_ground(movement_direction, current_speed, delta)
 	else:
 		_move_in_air(movement_direction, current_speed, delta)
-
 
 func _get_movement_direction(input_direction: Vector2) -> Vector3:
 	var direction := Vector3(input_direction.x, 0.0, input_direction.y)
@@ -158,6 +187,10 @@ func _move_in_air(direction: Vector3, speed: float, delta: float) -> void:
 
 # HEAD BOB
 func _update_head_bob(delta: float) -> void:
+	if is_wheelchair_mode:
+		_update_wheelchair_shake(delta)
+		return
+	
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
 	if is_on_floor() and horizontal_speed > 0.1:
 		bob_time += delta * horizontal_speed
@@ -240,3 +273,47 @@ func _update_carve_timer(delta: float) -> void:
 func _update_timer_label() -> void:
 	if carve_timer_label:
 		carve_timer_label.text = "%d" % ceil(time_remaining)
+
+func toggle_wheelchair_mode() -> void:
+	is_wheelchair_mode = not is_wheelchair_mode
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
+	wheelchair_look_yaw = 0.0
+	camera_mount.rotation.y = 0.0
+
+# left/right now rotate the chair in place instead of strafing: forward/backward
+# push along the chair's current facing direction, at reduced speed
+func _handle_wheelchair_movement(delta: float) -> void:
+	var turn_input := Input.get_axis("left", "right")
+	rotate_y(-turn_input * wheelchair_turn_speed * delta)
+	
+	var forward_input := Input.get_axis("forward", "backward")
+	var move_direction := global_transform.basis * Vector3(0, 0, forward_input)
+	move_direction = move_direction.normalized() if forward_input != 0.0 else Vector3.ZERO
+	
+	var target_velocity := move_direction * wheelchair_move_speed
+	if move_direction:
+		velocity.x = move_toward(velocity.x, target_velocity.x, wheelchair_acceleration * delta)
+		velocity.z = move_toward(velocity.z, target_velocity.z, wheelchair_acceleration * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, wheelchair_acceleration * delta)
+		velocity.z = move_toward(velocity.z, 0.0, wheelchair_acceleration * delta)
+
+func _update_wheelchair_shake(delta: float) -> void:
+	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
+	
+	if horizontal_speed > 0.1:
+		wheelchair_shake_time += delta * wheelchair_shake_frequency
+		var shake_offset := Vector3(
+			sin(wheelchair_shake_time * 1.3) * wheelchair_shake_amplitude,
+			sin(wheelchair_shake_time) * wheelchair_shake_amplitude * 0.5,
+			0.0)
+		camera.position = camera.position.lerp(shake_offset, delta * 10.0)
+	else:
+		camera.position = camera.position.lerp(Vector3.ZERO, delta * 10.0)
+
+func _update_camera_height(delta: float) -> void:
+	var target_y := standing_camera_mount_y
+	if is_wheelchair_mode:
+		target_y += wheelchair_camera_height
+	camera_mount.position.y = move_toward(camera_mount.position.y, target_y, wheelchair_height_transition_speed * delta)

@@ -26,6 +26,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_gjpho")
 script = ExtResource("2_cec63")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Outer" unique_id=1687729788]
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Outer/StaticBody3D" unique_id=1678443955]
 shape = SubResource("ConcavePolygonShape3D_gjpho")

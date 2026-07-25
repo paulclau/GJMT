@@ -1,10 +1,23 @@
 [gd_scene format=3 uid="uid://plgqgc366oje"]
 
-[ext_resource type="PackedScene" uid="uid://6w7bo0vux227" path="res://Scenes/CarvingShaderMask.tscn" id="2_5nsto"]
+[ext_resource type="PackedScene" uid="uid://6w7bo0vux227" path="res://Scenes/Interactable/CarvingShaderMask.tscn" id="2_5nsto"]
 [ext_resource type="Texture2D" uid="uid://c0hb40c7njmsp" path="res://Assets/icon.svg" id="2_gjpho"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_j0p05"]
+[ext_resource type="Script" uid="uid://cxeeu0t5v1538" path="res://Scripts/WheelChair.gd" id="3_p70al"]
+[ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="4_45d1s"]
 
 [sub_resource type="Environment" id="Environment_ahg1b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4owis"]
+albedo_color = Color(0.4627451, 0.28235295, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c4dyq"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4xe6d"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
+radius = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
@@ -64,16 +77,41 @@ player_camera = NodePath("../../Player/CameraMount/PlayerCam")
 carve_camera = NodePath("../CarvingCam")
 player = NodePath("../../Player")
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
+[node name="WheelChair" type="Node3D" parent="Map" unique_id=1228502930 node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0507483, 0.47727323, 0)
+script = ExtResource("3_p70al")
+player = NodePath("../../Player")
+
+[node name="WheelChairMesh" type="MeshInstance3D" parent="Map/WheelChair" unique_id=225113444]
+material_override = SubResource("StandardMaterial3D_4owis")
+mesh = SubResource("BoxMesh_c4dyq")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/WheelChair/WheelChairMesh" unique_id=1951300307]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/WheelChair/WheelChairMesh/StaticBody3D" unique_id=1681072744]
+shape = SubResource("ConcavePolygonShape3D_4xe6d")
+
+[node name="InteractionArea" parent="Map/WheelChair" unique_id=1023657923 instance=ExtResource("4_45d1s")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/WheelChair/InteractionArea" unique_id=544055281]
+shape = SubResource("SphereShape3D_ahg1b")
+
+[node name="SeatPoint" type="Marker3D" parent="Map/WheelChair" unique_id=615752246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57002264, 0)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model", "wheelchair_mesh") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_mask = 2
 script = ExtResource("2_j0p05")
 carve_sensitivity_multiplier = 0.1
 sensitivity_smoothing = 4.0
-carve_time_limit = 5.0
+carve_time_limit = 30.0
 carve_reticle = NodePath("../CanvasLayer/CarveReticle")
 carve_timer_label = NodePath("../CanvasLayer/CarveTimerLabel")
 player_model = NodePath("Mesh")
+wheelchair_mesh = NodePath("WheelChairMesh")
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")
@@ -85,3 +123,9 @@ shape = SubResource("CapsuleShape3D_qbkls")
 
 [node name="PlayerCam" type="Camera3D" parent="Player/CameraMount" unique_id=249440109]
 current = true
+
+[node name="WheelChairMesh" type="MeshInstance3D" parent="Player" unique_id=1350579940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_4owis")
+mesh = SubResource("BoxMesh_c4dyq")
