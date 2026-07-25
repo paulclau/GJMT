@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://djetf7vh16704"]
+
+[ext_resource type="Shader" uid="uid://bgke7uk3ut5we" path="res://Assets/Shaders/3DPixelShader.gdshader" id="1_6xlsm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c4dyq"]
+render_priority = 0
+shader = ExtResource("1_6xlsm")
+shader_parameter/target_resolution = Vector2(720, 360)
+shader_parameter/colors_per_channel = 32.0
+shader_parameter/depth_outline_strength = 0.8
+shader_parameter/normal_outline_strength = 0.5
+shader_parameter/is_perspective_camera = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_ahg1b"]
+material = SubResource("ShaderMaterial_c4dyq")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="3DPixelShader" type="MeshInstance3D" unique_id=1947791935]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_ahg1b")

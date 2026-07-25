@@ -1,12 +1,25 @@
 [gd_scene format=3 uid="uid://plgqgc366oje"]
 
+[ext_resource type="PackedScene" uid="uid://djetf7vh16704" path="res://Scenes/3DPixelShader.tscn" id="1_45d1s"]
 [ext_resource type="PackedScene" uid="uid://6w7bo0vux227" path="res://Scenes/Interactable/CarvingShaderMask.tscn" id="2_5nsto"]
 [ext_resource type="Texture2D" uid="uid://c0hb40c7njmsp" path="res://Assets/icon.svg" id="2_gjpho"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_j0p05"]
 [ext_resource type="Script" uid="uid://cxeeu0t5v1538" path="res://Scripts/WheelChair.gd" id="3_p70al"]
 [ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="4_45d1s"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uo7di"]
+sky_top_color = Color(0.09862233, 0.4339258, 0.8509813, 1)
+sky_horizon_color = Color(0.89695156, 0.51499337, 0.68128353, 1)
+sky_energy_multiplier = 0.7
+ground_bottom_color = Color(0.10906277, 0.57400465, 0.79513055, 1)
+ground_horizon_color = Color(0, 0.19215687, 0.47058824, 1)
+
+[sub_resource type="Sky" id="Sky_45d1s"]
+sky_material = SubResource("ProceduralSkyMaterial_uo7di")
+
 [sub_resource type="Environment" id="Environment_ahg1b"]
+background_mode = 2
+sky = SubResource("Sky_45d1s")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4owis"]
 albedo_color = Color(0.4627451, 0.28235295, 0.2, 1)
@@ -24,6 +37,9 @@ radius = 1.0
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
 
 [node name="World" type="Node3D" unique_id=138928880]
+
+[node name="3DPixelShader" parent="." unique_id=1947791935 instance=ExtResource("1_45d1s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1860320331]
 

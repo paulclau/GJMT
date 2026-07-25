@@ -49,8 +49,8 @@ func _stand_player() -> void:
 	global_transform = world_transform
 	
 	# Move the player out to stand just in front of the wheelchair, using
-	# the chair's current facing — not the seat_point child anymore since
-	# that's now only meaningful while attached, so we use our own -Z instead.
+	# the chair's current facing, not the seat_point child anymore since
+	# that's now only meaningful while attached, so we use our own -Z instead
 	player.global_position = global_position - global_transform.basis.z * stand_forward_offset
 	
 	InteractionManager.unregister_area(interaction_area)
@@ -66,6 +66,6 @@ func _update_prompt() -> void:
 		interaction_area.action_name = "sit in wheelchair"
 
 func seat_offset_transformed() -> Vector3:
-	# seat_point's local -Z is "forward" by Godot convention — push the
-	# player that direction, scaled by the exported offset distance.
+	# seat_point's local -Z is "forward" by Godot convention, push the
+	# player that direction, scaled by the exported offset distance
 	return -seat_point.global_transform.basis.z * seat_forward_offset
