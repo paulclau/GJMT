@@ -44,10 +44,19 @@ var bob_time: float = 0.0
 @onready var camera: Camera3D = $CameraMount/PlayerCam
 
 @export_category("Carve Mode")
+@export var carve_time_limit: float = 60.0 # seconds allowed to carve per session
+@export var carve_reticle: Control
+@export var carve_timer_label: Label # shows remaining time, drag in from UI
+@export var label_hide_delay: float = 3.0
+@export var player_model: Node3D
+
 var is_carving_mode: bool = false
 var active_carve_camera: Camera3D = null
 var virtual_mouse_pos: Vector2 = Vector2.ZERO
-@export var carve_reticle: Control
+var can_carve: bool = true # whether carving is still allowed this session
+var time_remaining: float = 0.
+var carve_started: bool = false
+var label_hide_countdown: float = 0.0
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -63,11 +72,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_handle_camera_look(event)
 
 # While carving, the mouse just moves a free cursor rather than rotating the
-# camera — so "sensitivity" here means damping how far the cursor moves per
-# pixel of real mouse motion, then re-syncing the OS cursor to match.
+# camera, so "sensitivity" here means damping how far the cursor moves per
+# pixel of real mouse motion, then re-syncing the OS cursor to match
 func _handle_carve_cursor(event: InputEventMouseMotion) -> void:
 	virtual_mouse_pos += event.relative * carve_sensitivity_multiplier
-
+	
 	var viewport_size := get_viewport().get_visible_rect().size
 	virtual_mouse_pos.x = clamp(virtual_mouse_pos.x, 0.0, viewport_size.x)
 	virtual_mouse_pos.y = clamp(virtual_mouse_pos.y, 0.0, viewport_size.y)
@@ -87,6 +96,9 @@ func _physics_process(delta: float) -> void:
 	_update_head_bob(delta)
 	_update_fov(delta)
 	move_and_slide()
+
+func _process(delta: float) -> void:
+	_update_carve_timer(delta)
 
 func _update_carve_cursor(delta: float) -> void:
 	var real_mouse_pos := get_viewport().get_mouse_position()
@@ -167,20 +179,64 @@ func _update_fov(delta: float) -> void:
 func enter_carve_mode(cam: Camera3D) -> void:
 	is_carving_mode = true
 	active_carve_camera = cam
+	
 	velocity = Vector3.ZERO
 	camera.current = false
 	cam.current = true
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)  # hidden, but NOT confined — position still tracks normally
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	virtual_mouse_pos = get_viewport().get_mouse_position()
+	
+	if not carve_started:
+		carve_started = true
+		time_remaining = carve_time_limit
+		
 	if carve_reticle:
 		carve_reticle.show()
+	if carve_timer_label:
+		carve_timer_label.show()
+		_update_timer_label()
+		
+	if player_model:
+		player_model.hide()
 
 func exit_carve_mode() -> void:
 	is_carving_mode = false
 	if is_instance_valid(active_carve_camera):
 		active_carve_camera.current = false
 	active_carve_camera = null
+	
 	camera.current = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	if carve_reticle:
 		carve_reticle.hide()
+	# carve_timer_label intentionally NOT hidden here anymore
+	# stays visible so the player can see time still counting down
+	
+	if player_model:
+		player_model.show()
+
+func _update_carve_timer(delta: float) -> void:
+	if not carve_started:
+		return
+		
+	if not can_carve:
+		# already expired, count down the grace period, then hide once
+		if carve_timer_label and carve_timer_label.visible:
+			label_hide_countdown -= delta
+			if label_hide_countdown <= 0.0:
+				carve_timer_label.hide()
+		return
+	
+	time_remaining -= delta
+	if time_remaining <= 0.0:
+		time_remaining = 0.0
+		can_carve = false
+		label_hide_countdown = label_hide_delay
+	
+	_update_timer_label()
+
+func _update_timer_label() -> void:
+	if carve_timer_label:
+		carve_timer_label.text = "%d" % ceil(time_remaining)

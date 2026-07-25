@@ -30,6 +30,16 @@ grow_vertical = 2
 texture = ExtResource("2_gjpho")
 expand_mode = 1
 
+[node name="CarveTimerLabel" type="Label" parent="CanvasLayer" unique_id=925289076]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 10.575
+offset_right = 20.0
+offset_bottom = 33.575012
+grow_horizontal = 2
+
 [node name="Map" type="Node3D" parent="." unique_id=132563164]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Map" unique_id=1529780129]
@@ -54,13 +64,16 @@ player_camera = NodePath("../../Player/CameraMount/PlayerCam")
 carve_camera = NodePath("../CarvingCam")
 player = NodePath("../../Player")
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle") groups=["player"]]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_mask = 2
 script = ExtResource("2_j0p05")
 carve_sensitivity_multiplier = 0.1
 sensitivity_smoothing = 4.0
+carve_time_limit = 5.0
 carve_reticle = NodePath("../CanvasLayer/CarveReticle")
+carve_timer_label = NodePath("../CanvasLayer/CarveTimerLabel")
+player_model = NodePath("Mesh")
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")

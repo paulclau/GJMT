@@ -31,7 +31,7 @@ func toggle_carve_mode() -> void:
 		player.exit_carve_mode()
 
 func _physics_process(_delta: float) -> void:
-	if using_carve_mode and Input.is_action_pressed(carve_action):
+	if using_carve_mode and player.can_carve and Input.is_action_pressed(carve_action):
 		_try_carve()
 
 func _try_carve() -> void:
@@ -45,6 +45,7 @@ func _try_carve() -> void:
 	
 	var space := get_world_3d().direct_space_state
 	var query := PhysicsRayQueryParameters3D.create(from, to)
+	query.exclude = [player.get_rid()] # exclude player's collider
 	var result: Dictionary = space.intersect_ray(query)
 	
 	if result.is_empty():
