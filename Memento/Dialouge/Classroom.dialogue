@@ -1,6 +1,5 @@
 ~ start
-Ben: Let's play hide and seek, 
-Ben: Before the teacher comes.
+Ben: Let's play hide and seek!
 => END
 
 ~ countdown
@@ -21,6 +20,8 @@ Ben: Here I come!
 ~ seekend
 if GameState.SeekWin
 	Ben: I found all my friends! Hooray!
+	do get_tree().change_scene_to_file("res://Scenes/HubWorld.tscn")
 else
 	Ben: [speed=0.2]I can't find all my friends...
+	do get_tree().change_scene_to_file("res://Scenes/HubWorld.tscn")
 => END
