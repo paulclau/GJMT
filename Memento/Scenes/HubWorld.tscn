@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cefx2n3s2sge7"]
 
-[ext_resource type="Script" path="res://Scripts/PillowSpawning.gd" id="1_ruj7l"]
+[ext_resource type="Script" uid="uid://dp2ypijuc8opg" path="res://Scripts/PillowSpawning.gd" id="1_ruj7l"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_ruj7l"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ruj7l"]
@@ -46,7 +46,7 @@ carve_sensitivity_multiplier = 0.163
 player_model = NodePath("Mesh")
 
 [node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1040850996]
-bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank", "res://Assets/Audio Banks/Desktop/Mind Palace.bank"]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank", "res://Assets/Audio Banks/Desktop/Mind Palace.bank", "res://Assets/Audio Banks/Desktop/Clock Loop.bank"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=1814530513]
 mesh = SubResource("CapsuleMesh_fxrh3")
@@ -103,3 +103,9 @@ autoplay = true
 "fmod_parameters/Mind Progress/id" = 3278793843506833935
 "fmod_parameters/Mind Progress" = 1
 "fmod_parameters/Mind Progress/variant_type" = 2
+
+[node name="FmodEventEmitter2D2" type="FmodEventEmitter2D" parent="." unique_id=2069483637]
+event_name = "event:/SFX/Prop/Clock Loop"
+event_guid = "{abc062ed-3481-4018-a63d-7d5c56bcd517}"
+autoplay = true
+volume = 0.3
