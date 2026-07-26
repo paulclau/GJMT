@@ -1,35 +1,36 @@
 [gd_scene format=3 uid="uid://cfo4ymclouxlm"]
 
 [ext_resource type="Script" uid="uid://8tgk1pkx5f1p" path="res://Scenes/Pillow/pillow.gd" id="1_rwemy"]
+[ext_resource type="PackedScene" uid="uid://cdlw0r2p0e3gb" path="res://Scenes/Pillow/pillow.fbx" id="2_jxarv"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_ywgq0"]
-size = Vector3(1.5526733, 0.4975586, 2.210022)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d3h4u"]
-points = PackedVector3Array(0.77633667, 0.2487793, 1.105011, 0.77633667, -0.2487793, 1.105011, 0.77633667, 0.2487793, -1.105011, -0.77633667, 0.2487793, 1.105011, -0.77633667, -0.2487793, 1.105011, 0.77633667, -0.2487793, -1.105011, -0.77633667, 0.2487793, -1.105011, -0.77633667, -0.2487793, -1.105011)
+[sub_resource type="BoxShape3D" id="BoxShape3D_ruj7l"]
+size = Vector3(1, 0.685791, 1.7905884)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ywgq0"]
-size = Vector3(1.5516891, 0.65185547, 2.2108154)
+size = Vector3(1.1841388, 0.65185547, 1.757843)
 
 [node name="Pillow" type="Node3D" unique_id=954301174]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
 script = ExtResource("1_rwemy")
 lifetime = 3.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=605465546]
-transform = Transform3D(1.2793785, 0, 0, 0, 1.2793785, 0, 0, 0, 1.2793785, 0.010953352, -0.2512207, -0.16543579)
-mesh = SubResource("BoxMesh_ywgq0")
+[node name="pillow" parent="." unique_id=238685505 instance=ExtResource("2_jxarv")]
+transform = Transform3D(-6.556708e-07, 0, 15, 0, 15, 0, -15, 0, -6.556708e-07, 0.022616386, -0.568771, -0.11623925)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=419847829]
+[node name="StaticBody3D" type="StaticBody3D" parent="pillow" unique_id=419847829]
+transform = Transform3D(-3.728227e-09, 0, -0.0852919, 0, 0.0852919, 0, 0.0852919, 0, -3.728227e-09, 0.0032797689, 0.021170018, -0.00077753543)
 collision_layer = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=418904428]
-shape = SubResource("ConvexPolygonShape3D_d3h4u")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pillow/StaticBody3D" unique_id=418904428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06975527, 0.03359984)
+shape = SubResource("BoxShape3D_ruj7l")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=816317106]
+[node name="Area3D" type="Area3D" parent="pillow" unique_id=816317106]
+transform = Transform3D(-2.9140923e-09, 0, -0.06666666, 0, 0.06666666, 0, 0.06666666, 0, -2.9140923e-09, -0.0077492828, 0.037918065, -0.0015077593)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=672104637]
-transform = Transform3D(1.2793785, 0, 0, 0, 1.2793785, 0, 0, 0, 1.2793785, 0.011465805, -0.028516382, -0.17176083)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pillow/Area3D" unique_id=672104637]
+transform = Transform3D(1.2793785, 0, 0, 0, 1.2793785, 0, 0, 0, 1.2793785, -0.006781244, -0.028516404, -0.110403955)
 shape = SubResource("BoxShape3D_ywgq0")
 
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="body_entered" from="pillow/Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="pillow/Area3D" to="." method="_on_area_3d_body_exited"]
