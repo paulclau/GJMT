@@ -10,6 +10,7 @@ extends Node3D
 
 @onready var outer_shell: MeshInstance3D = $Outer
 @onready var interaction_area = $InteractionArea
+@onready var slice = $Outer/FmodEventEmitter3D
 
 var mesh_faces: Array = []
 var using_carve_mode: bool = false
@@ -33,6 +34,9 @@ func toggle_carve_mode() -> void:
 func _physics_process(_delta: float) -> void:
 	if using_carve_mode and player.can_carve and Input.is_action_pressed(carve_action):
 		_try_carve()
+		slice.play(false)
+	else:
+		slice.stop()
 
 func _try_carve() -> void:
 	var cam := get_viewport().get_camera_3d()

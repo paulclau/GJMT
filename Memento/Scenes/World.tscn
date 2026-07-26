@@ -162,7 +162,7 @@ carve_timer_label = NodePath("../CarveUI/CarveTimerLabel")
 player_model = NodePath("Mesh")
 
 [node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1275748488]
-bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank"]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")
@@ -183,6 +183,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
 [node name="Wheelchair" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=335214317]
 event_name = "event:/SFX/Prop/WheelChair"
 event_guid = "{8a12e7ea-7539-4603-adfb-4219123b9c12}"
+volume = 0.8
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="PumpSlice" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=1431359589]
+event_name = "event:/SFX/Prop/Pumpkin Slice"
+event_guid = "{6feaa4f6-f538-4c92-a5a2-49ef03df1b01}"
 volume = 0.8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
 
