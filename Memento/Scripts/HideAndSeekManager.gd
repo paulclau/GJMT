@@ -67,6 +67,8 @@ func _on_trigger_interact() -> void:
 func _start_game() -> void:
 	if state != State.INACTIVE:
 		return
+	var resource = load("res://Dialouge/Classroom.dialogue")
+	DialogueManager.show_dialogue_balloon(resource, "start")
 	state = State.EYES_CLOSED  # set before any await, blocks re-entry
 	found_count = 0
 	for npc in npcs:
@@ -96,6 +98,12 @@ func npc_found(_npc: HideSeekNPC) -> void:
 	if state != State.SEEKING:
 		return
 	found_count += 1
+	if found_count == 1:
+		$"../FmodEventEmitter2D".set_parameter("Mind Progress", "2")
+	if found_count == 2:
+		$"../FmodEventEmitter2D".set_parameter("Mind Progress", "3")
+	if found_count == 3:
+		$"../FmodEventEmitter2D".set_parameter("Mind Progress", "4")
 	_show_found_popup()
 	
 	if found_count >= npcs.size():
@@ -114,7 +122,9 @@ func _end_game(won: bool) -> void:
 	
 	if result_label:
 		result_label.hide()
-	
+	var resource = load("res://Dialouge/Classroom.dialogue")
+	GameState.SeekWin = won
+	DialogueManager.show_dialogue_balloon(resource, "seekend")
 	_enter_free_roam()
 
 # Player keeps moving freely, NPCs become talkable, trigger switches to

@@ -44,6 +44,12 @@ font_size = 128
 shadow_size = 33
 shadow_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_4t6qk"]
+font = ExtResource("4_jqrvx")
+font_size = 64
+shadow_size = 33
+shadow_color = Color(0, 0, 0, 0.5647059)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aavqq"]
 resource_name = "Ceiling_1"
 cull_mode = 2
@@ -574,6 +580,21 @@ offset_bottom = 265.0
 grow_horizontal = 2
 text = "Momento"
 label_settings = SubResource("LabelSettings_mxsx2")
+
+[node name="Label" type="Label" parent="Menu" unique_id=545161060]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -72.5
+offset_top = 233.645
+offset_right = 72.5
+offset_bottom = 321.64502
+grow_horizontal = 2
+text = "Day 0"
+label_settings = SubResource("LabelSettings_4t6qk")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HOSPITAL2" type="Node3D" parent="." unique_id=1607776087]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.34836698, -1.1920929e-07, 3.8598185)
