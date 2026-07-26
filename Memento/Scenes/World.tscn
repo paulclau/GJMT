@@ -10,6 +10,11 @@
 [ext_resource type="PackedScene" uid="uid://13jdg33yhx1" path="res://Scenes/Interactable/HideAndSeek/HideSeekNPC.tscn" id="6_q2d71"]
 [ext_resource type="PackedScene" uid="uid://33cecttgih8b" path="res://Scenes/Interactable/SceneTransitionInteractable.tscn" id="7_uo7di"]
 [ext_resource type="PackedScene" uid="uid://cdavqhvjycqri" path="res://Scenes/Interactable/HideAndSeek/HideAndSeekManager.tscn" id="8_uo7di"]
+[ext_resource type="PackedScene" uid="uid://bpig5p2mukshp" path="res://Assets/char/Casual Character by Quaternius - kZ3DmIoGip.glb" id="10_kwl8l"]
+[ext_resource type="PackedScene" uid="uid://cf8uamyu8fdig" path="res://Assets/char/Doctor by jeremy - 0N-0gZmlVOb.glb" id="11_xiqgv"]
+[ext_resource type="PackedScene" uid="uid://fcruodclc2hl" path="res://Assets/char/Man in Long Sleeves by Quaternius - DLptRuewTn.glb" id="12_waglr"]
+[ext_resource type="PackedScene" uid="uid://bvikc0mycae4a" path="res://Assets/char/Pumpkin by Quaternius - bvLvqnU1jX.glb" id="13_rwt1y"]
+[ext_resource type="PackedScene" uid="uid://dloxhpf8pnofn" path="res://Assets/char/Woman Casual by Quaternius - jpKRgGDxhk.glb" id="14_mvfa8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uo7di"]
 sky_top_color = Color(0.09862233, 0.4339258, 0.8509813, 1)
@@ -305,6 +310,21 @@ event_name = "event:/SFX/Prop/Pumpkin Slice"
 event_guid = "{6feaa4f6-f538-4c92-a5a2-49ef03df1b01}"
 volume = 0.8
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="Root Scene" parent="Player/Mesh" unique_id=290075944 instance=ExtResource("10_kwl8l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.814763, -0.998603, -7.1555786)
+
+[node name="Doctor by jeremy - 0N-0gZmlVOb" parent="Player/Mesh" unique_id=1333644710 instance=ExtResource("11_xiqgv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1702967, -0.94421047, -8.410367)
+
+[node name="Root Scene2" parent="Player/Mesh" unique_id=667747734 instance=ExtResource("12_waglr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10265803, -1.0000005, -10.204996)
+
+[node name="Root Scene3" parent="Player/Mesh" unique_id=2038410577 instance=ExtResource("13_rwt1y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.106517, -0.99587154, -7.478303)
+
+[node name="Root Scene4" parent="Player/Mesh" unique_id=1255186525 instance=ExtResource("14_mvfa8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.148921, -0.9817106, -8.995431)
 
 [node name="Collider" type="CollisionShape3D" parent="Player" unique_id=1022912305]
 shape = SubResource("CapsuleShape3D_qbkls")
