@@ -294,6 +294,7 @@ current = true
 [node name="GroundRayCheck" type="RayCast3D" parent="Player" unique_id=889960468]
 target_position = Vector3(0, -1.2, 0)
 collision_mask = 2
+
 [node name="WheelChairMesh" type="MeshInstance3D" parent="Player" unique_id=1350579940]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
 visible = false
@@ -311,3 +312,6 @@ countdown_label = NodePath("../HideAndSeekUI/CountdownLabel")
 seek_timer_label = NodePath("../HideAndSeekUI/SeekTimerLabel")
 result_label = NodePath("../HideAndSeekUI/ResultLabel")
 found_popup_label = NodePath("../HideAndSeekUI/FoundPopupLabel")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="HideAndSeekManager" unique_id=933292081]
+radius = 0.1
