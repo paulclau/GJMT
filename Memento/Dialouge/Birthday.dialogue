@@ -4,7 +4,9 @@ Mum: If you [shake]break[/shake] it open, you can see what's [wave]inside[/wave]
 
 ~ pinata
 if GameState.BirthdayWin
-	Ben: Candy! Thank you Mum and Dad!
+	Ben: [speed=0.2]I don’t like my birthday anymore…
+	do get_tree().change_scene_to_file("res://Scenes/HubWorld.tscn")
 else
 	Ben: [speed=0.2]I don’t like my birthday anymore…
+	do get_tree().change_scene_to_file("res://Scenes/HubWorld.tscn")
 => END

@@ -26,5 +26,7 @@ func _break_pinata() -> void:
 	
 	broken_model_instance.process_mode = Node.PROCESS_MODE_INHERIT
 	broken_model_instance.show()
-	
+	$FmodEventEmitter3D.play()
+	var resource = load("res://Dialouge/Birthday.dialogue")
+	DialogueManager.show_dialogue_balloon(resource, "pinata")
 	self.queue_free()

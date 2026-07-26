@@ -14,11 +14,11 @@
 [ext_resource type="Texture2D" uid="uid://b2d2o7cw8vv72" path="res://Assets/Textures/APT_ceilingfloor/standardSurface1_emissive.png" id="11_6k04a"]
 [ext_resource type="Texture2D" uid="uid://byvhljh8c2gay" path="res://Assets/Textures/APT_ceilingfloor/standardSurface1_normal.png" id="12_vcm8k"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="13_lew0y"]
-[ext_resource type="PackedScene" uid="uid://bmx53qo5vvt2k" path="res://Assets/PINATA.glb" id="14_iepm1"]
 [ext_resource type="Script" uid="uid://dn5upcqqp6qjl" path="res://stickgrabbable.gd" id="15_ibs6p"]
 [ext_resource type="Script" uid="uid://da4jxcrdrpko" path="res://Scenes/groundtype.gd" id="15_mld33"]
 [ext_resource type="PackedScene" uid="uid://bpig5p2mukshp" path="res://Assets/char/Casual Character by Quaternius - kZ3DmIoGip.glb" id="16_uw3us"]
 [ext_resource type="PackedScene" uid="uid://b6ytdk8compud" path="res://Assets/char/Animated Woman by Quaternius - qJ2gsTUBHL.glb" id="17_a67nc"]
+[ext_resource type="PackedScene" uid="uid://d23uywqurujst" path="res://Scenes/Pinata.tscn" id="19_mld33"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mld33"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -394,14 +394,14 @@ environment = SubResource("Environment_yrk5j")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=2133150212 node_paths=PackedStringArray("player_model") groups=["player"]]
-transform = Transform3D(-0.986886, 0, 0.16141872, 0, 1, 0, -0.16141872, 0, -0.986886, -3.3660855, 1.0185195, -3.5574913)
+transform = Transform3D(-0.986886, 0, 0.16141872, 0, 1, 0, -0.16141872, 0, -0.986886, -1.5291958, 1.0185195, -6.7444105)
 collision_mask = 2
 script = ExtResource("13_lew0y")
 carve_sensitivity_multiplier = 0.163
 player_model = NodePath("Mesh")
 
 [node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1356562291]
-bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank"]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank", "res://Assets/Audio Banks/Desktop/Level.bank", "res://Assets/Audio Banks/Desktop/Light Wood Collide.bank"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=974843563]
 visible = false
@@ -561,8 +561,9 @@ transform = Transform3D(1505.7505, 0, 0, 0, 1505.7505, 0, 0, 0, 1505.7505, -102.
 transform = Transform3D(1.0827451, 0, 0, 0, 1.0827451, 0, 0, 0, 1.0827451, 0, 0, 0)
 mesh = SubResource("ArrayMesh_7wl05")
 
-[node name="PINATA" parent="." unique_id=570394568 instance=ExtResource("14_iepm1")]
-transform = Transform3D(2.4708562, 0, 0, 0, 2.4708562, 0, 0, 0, 2.4708562, -1.0224686, 0.7644083, -5.2727127)
+[node name="pPlane33" type="MeshInstance3D" parent="APT/APT_ceilingnfloor/RootNode/ApartmentLayout/APT_ceilfloor/pPlane3" unique_id=103563762]
+transform = Transform3D(1.0827451, 0, 0, 0, -1.0827451, 9.465658e-08, 0, -9.465658e-08, -1.0827451, 0, 0, 0)
+mesh = SubResource("ArrayMesh_7wl05")
 
 [node name="StickGrabbable" type="MeshInstance3D" parent="." unique_id=1162167892]
 transform = Transform3D(0.022237703, 0, 0, 0, 0.31722173, 0, 0, 0, 0.022237703, -1.957287, 1.7625163, -3.3406906)
@@ -599,5 +600,21 @@ amount = 400
 lifetime = 21.55
 process_material = SubResource("ParticleProcessMaterial_mld33")
 draw_pass_1 = SubResource("SphereMesh_6vg8o")
+
+[node name="PINATA" parent="." unique_id=1560461176 instance=ExtResource("19_mld33")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9274865, 1.2988305, -3.2800114)
+
+[node name="FmodEventEmitter3D" type="FmodEventEmitter3D" parent="PINATA" unique_id=1958706949]
+event_name = "event:/SFX/Char/Light Wood Collide"
+event_guid = "{f73eeedb-6ee7-4bb8-a283-5199f6ef63c0}"
+
+[node name="FmodEventEmitter2D" type="FmodEventEmitter2D" parent="." unique_id=2010376205]
+event_name = "event:/Music/Level"
+event_guid = "{2d35a095-d2e6-4bcc-bc60-7c440242b81d}"
+autoplay = true
+auto_release = true
+"fmod_parameters/Level Intensity/id" = 7017712731133182147
+"fmod_parameters/Level Intensity" = 4
+"fmod_parameters/Level Intensity/variant_type" = 2
 
 [connection signal="body_entered" from="mum/Area3D" to="Player" method="birthday"]
