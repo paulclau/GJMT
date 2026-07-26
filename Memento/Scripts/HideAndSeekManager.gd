@@ -98,6 +98,12 @@ func npc_found(_npc: HideSeekNPC) -> void:
 	if state != State.SEEKING:
 		return
 	found_count += 1
+	if found_count == 1:
+		$"../FmodEventEmitter2D".set_parameter("Mind Progress", "2")
+	if found_count == 2:
+		$"../FmodEventEmitter2D".set_parameter("Mind Progress", "3")
+	if found_count == 3:
+		$"../FmodEventEmitter2D".set_parameter("Mind Progress", "4")
 	_show_found_popup()
 	
 	if found_count >= npcs.size():
