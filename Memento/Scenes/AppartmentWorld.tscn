@@ -602,11 +602,14 @@ process_material = SubResource("ParticleProcessMaterial_mld33")
 draw_pass_1 = SubResource("SphereMesh_6vg8o")
 
 [node name="PINATA" parent="." unique_id=1560461176 instance=ExtResource("19_mld33")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9274865, 1.2988305, -3.2800114)
+transform = Transform3D(1.765, 0, 0, 0, 1.765, 0, 0, 0, 1.765, -1.9274865, 1.2301854, -3.2800114)
 
 [node name="FmodEventEmitter3D" type="FmodEventEmitter3D" parent="PINATA" unique_id=1958706949]
 event_name = "event:/SFX/Char/Light Wood Collide"
 event_guid = "{f73eeedb-6ee7-4bb8-a283-5199f6ef63c0}"
+
+[node name="Camera3D" type="Camera3D" parent="PINATA" unique_id=1919206288]
+transform = Transform3D(-0.19610417, -0.183979, 0.4986973, 0, 0.53155327, 0.19610018, -0.5315518, 0.067874946, -0.18398325, 0.83688295, -0.16905147, -0.30748773)
 
 [node name="FmodEventEmitter2D" type="FmodEventEmitter2D" parent="." unique_id=2010376205]
 event_name = "event:/Music/Level"

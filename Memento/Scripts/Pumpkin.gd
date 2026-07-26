@@ -25,6 +25,8 @@ func toggle_carve_mode() -> void:
 		using_carve_mode = true
 		interaction_area.action_name = "exit"
 		player.enter_carve_mode(carve_camera)
+		var resource = load("res://Dialouge/Halloween.dialogue")
+		DialogueManager.show_dialogue_balloon(resource, "start")
 	else:
 		using_carve_mode = false
 		interaction_area.action_name = "carve"
