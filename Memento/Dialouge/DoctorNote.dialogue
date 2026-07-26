@@ -1,0 +1,6 @@
+~ start
+if GameState.LastLevelWin
+	Doctor: Fortunately, today's scan showed some improvement.
+else
+	Doctor: Unfortunately, today's scan showed no further improvement.
+=> END

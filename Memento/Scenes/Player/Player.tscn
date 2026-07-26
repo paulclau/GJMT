@@ -11,8 +11,24 @@ collision_mask = 2
 script = ExtResource("1_rpqav")
 carve_sensitivity_multiplier = 0.163
 
+[node name="FmodBankLoader" type="FmodBankLoader" parent="." unique_id=1275748488]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank"]
+
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")
+
+[node name="Footsteps" type="FmodEventEmitter3D" parent="Mesh" unique_id=1578221535]
+event_name = "event:/SFX/Char/Footsteps"
+event_guid = "{7bbf46cf-ee1f-4725-8dbe-641ae259870d}"
+fmod_parameters/Speed/id = -8695463687046609621
+fmod_parameters/Speed = "Walk"
+fmod_parameters/Speed/labels = PackedStringArray("Walk", "Sprint")
+fmod_parameters/Speed/variant_type = 4
+"fmod_parameters/Ground Type/id" = -2990433712182949377
+"fmod_parameters/Ground Type" = "Mind"
+"fmod_parameters/Ground Type/labels" = PackedStringArray("Mind", "Level")
+"fmod_parameters/Ground Type/variant_type" = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=1022912305]
 shape = SubResource("CapsuleShape3D_qbkls")
@@ -20,3 +36,5 @@ shape = SubResource("CapsuleShape3D_qbkls")
 [node name="CameraMount" type="Node3D" parent="." unique_id=1864604267]
 
 [node name="PlayerCam" type="Camera3D" parent="CameraMount" unique_id=249440109]
+
+[node name="FmodListener3D" type="FmodListener3D" parent="CameraMount/PlayerCam" unique_id=82698227]

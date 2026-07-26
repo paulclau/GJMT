@@ -1,9 +1,18 @@
 [gd_scene format=3 uid="uid://djgu8lx5oakot"]
 
-[ext_resource type="PackedScene" uid="uid://c6rp8h1qplyqr" path="res://Scenes/Player/Player.tscn" id="1_8xb05"]
 [ext_resource type="PackedScene" uid="uid://33cecttgih8b" path="res://Scenes/Interactable/SceneTransitionInteractable.tscn" id="1_laf88"]
+[ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_laf88"]
 
 [sub_resource type="Environment" id="Environment_ahg1b"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4owis"]
+albedo_color = Color(0.4627451, 0.28235295, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_c4dyq"]
 
 [node name="World-2" type="Node3D" unique_id=477984884]
 
@@ -26,5 +35,62 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4.2576113)
 target_scene_path = "uid://plgqgc366oje"
 prompt_text = "travel to World"
 
-[node name="Player" parent="." unique_id=285178599 instance=ExtResource("1_8xb05")]
+[node name="Player" type="CharacterBody3D" parent="." unique_id=446961713 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_mask = 2
+script = ExtResource("2_laf88")
+carve_sensitivity_multiplier = 0.163
+carve_reticle = NodePath("")
+carve_timer_label = NodePath("")
+player_model = NodePath("Mesh")
+
+[node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=2081650503]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank"]
+
+[node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=2081503815]
+mesh = SubResource("CapsuleMesh_ahg1b")
+
+[node name="Footsteps" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=1608623871]
+event_name = "event:/SFX/Char/Footsteps"
+event_guid = "{7bbf46cf-ee1f-4725-8dbe-641ae259870d}"
+fmod_parameters/Speed/id = -8695463687046609621
+fmod_parameters/Speed = "Walk"
+fmod_parameters/Speed/labels = PackedStringArray("Walk", "Sprint")
+fmod_parameters/Speed/variant_type = 4
+"fmod_parameters/Ground Type/id" = -2990433712182949377
+"fmod_parameters/Ground Type" = "Mind"
+"fmod_parameters/Ground Type/labels" = PackedStringArray("Mind", "Level")
+"fmod_parameters/Ground Type/variant_type" = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="Wheelchair" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=1396867259]
+event_name = "event:/SFX/Prop/WheelChair"
+event_guid = "{8a12e7ea-7539-4603-adfb-4219123b9c12}"
+volume = 0.8
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="PumpSlice" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=951163818]
+event_name = "event:/SFX/Prop/Pumpkin Slice"
+event_guid = "{6feaa4f6-f538-4c92-a5a2-49ef03df1b01}"
+volume = 0.8
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="Collider" type="CollisionShape3D" parent="Player" unique_id=14337656]
+shape = SubResource("CapsuleShape3D_qbkls")
+
+[node name="CameraMount" type="Node3D" parent="Player" unique_id=145597116]
+
+[node name="PlayerCam" type="Camera3D" parent="Player/CameraMount" unique_id=633558989]
+current = true
+
+[node name="FmodListener3D" type="FmodListener3D" parent="Player/CameraMount/PlayerCam" unique_id=235220339]
+
+[node name="GroundRayCheck" type="RayCast3D" parent="Player" unique_id=1430698203]
+target_position = Vector3(0, -1.2, 0)
+collision_mask = 2
+
+[node name="WheelChairMesh" type="MeshInstance3D" parent="Player" unique_id=2002621126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_4owis")
+mesh = SubResource("BoxMesh_c4dyq")

@@ -69,3 +69,7 @@ func seat_offset_transformed() -> Vector3:
 	# seat_point's local -Z is "forward" by Godot convention, push the
 	# player that direction, scaled by the exported offset distance
 	return -seat_point.global_transform.basis.z * seat_forward_offset
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	$metalsound.play(false)

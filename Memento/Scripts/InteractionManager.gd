@@ -70,4 +70,5 @@ func _input(event):
 			label.hide()
 			if is_instance_valid(active_areas[0]):
 				await active_areas[0].interact.call()
+				$FmodEventEmitter3D.play()
 			can_interact = true

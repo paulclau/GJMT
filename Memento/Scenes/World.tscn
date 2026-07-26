@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c0hb40c7njmsp" path="res://Assets/icon.svg" id="2_gjpho"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_j0p05"]
 [ext_resource type="Script" uid="uid://cxeeu0t5v1538" path="res://Scripts/WheelChair.gd" id="3_p70al"]
+[ext_resource type="Script" uid="uid://da4jxcrdrpko" path="res://Scenes/groundtype.gd" id="3_y7y61"]
 [ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="4_45d1s"]
 [ext_resource type="PackedScene" uid="uid://13jdg33yhx1" path="res://Scenes/Interactable/HideAndSeek/HideSeekNPC.tscn" id="6_q2d71"]
 [ext_resource type="PackedScene" uid="uid://33cecttgih8b" path="res://Scenes/Interactable/SceneTransitionInteractable.tscn" id="7_uo7di"]
@@ -34,6 +35,9 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
 radius = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mxsx2"]
+size = Vector3(1.1, 1.1, 1.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kn06e"]
 albedo_color = Color(0.88235295, 0.17254902, 0, 1)
@@ -163,6 +167,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 use_collision = true
 collision_layer = 2
 size = Vector3(20, 1, 20)
+script = ExtResource("3_y7y61")
+Type = "Mind"
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Map" unique_id=849360233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 20.05045)
+use_collision = true
+collision_layer = 2
+size = Vector3(20, 1, 20)
+script = ExtResource("3_y7y61")
+Type = "Level"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Map" unique_id=1283742224]
 environment = SubResource("Environment_ahg1b")
@@ -204,6 +218,15 @@ shape = SubResource("SphereShape3D_ahg1b")
 [node name="SeatPoint" type="Marker3D" parent="Map/WheelChair" unique_id=615752246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57002264, 0)
 
+[node name="Area3D" type="Area3D" parent="Map/WheelChair" unique_id=1599487277]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/WheelChair/Area3D" unique_id=2094256265]
+shape = SubResource("BoxShape3D_mxsx2")
+
+[node name="metalsound" type="FmodEventEmitter3D" parent="Map/WheelChair" unique_id=1346490404]
+event_name = "event:/SFX/Char/Metal Collide"
+event_guid = "{20343bbb-a194-464c-892c-13b1561bebe5}"
+
 [node name="HideSeekNPC1" parent="Map" unique_id=896181813 instance=ExtResource("6_q2d71")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7452011, 1.0035205, -6.8338327)
 
@@ -244,18 +267,44 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
 mesh = SubResource("CylinderMesh_ahg1b")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9284465, 1.0000005, 3.300083)
 collision_mask = 2
 script = ExtResource("2_j0p05")
-carve_time_limit = 30.0
-carve_sensitivity_multiplier = 0.1
-sensitivity_smoothing = 4.0
+carve_sensitivity_multiplier = 0.163
 carve_reticle = NodePath("../CarveUI/CarveReticle")
 carve_timer_label = NodePath("../CarveUI/CarveTimerLabel")
 player_model = NodePath("Mesh")
 
+[node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1275748488]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank"]
+
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")
+
+[node name="Footsteps" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=1578221535]
+event_name = "event:/SFX/Char/Footsteps"
+event_guid = "{7bbf46cf-ee1f-4725-8dbe-641ae259870d}"
+fmod_parameters/Speed/id = -8695463687046609621
+fmod_parameters/Speed = "Walk"
+fmod_parameters/Speed/labels = PackedStringArray("Walk", "Sprint")
+fmod_parameters/Speed/variant_type = 4
+"fmod_parameters/Ground Type/id" = -2990433712182949377
+"fmod_parameters/Ground Type" = "Mind"
+"fmod_parameters/Ground Type/labels" = PackedStringArray("Mind", "Level")
+"fmod_parameters/Ground Type/variant_type" = 4
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="Wheelchair" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=335214317]
+event_name = "event:/SFX/Prop/WheelChair"
+event_guid = "{8a12e7ea-7539-4603-adfb-4219123b9c12}"
+volume = 0.8
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
+
+[node name="PumpSlice" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=1431359589]
+event_name = "event:/SFX/Prop/Pumpkin Slice"
+event_guid = "{6feaa4f6-f538-4c92-a5a2-49ef03df1b01}"
+volume = 0.8
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9250967, 0)
 
 [node name="Collider" type="CollisionShape3D" parent="Player" unique_id=1022912305]
 shape = SubResource("CapsuleShape3D_qbkls")
@@ -264,6 +313,12 @@ shape = SubResource("CapsuleShape3D_qbkls")
 
 [node name="PlayerCam" type="Camera3D" parent="Player/CameraMount" unique_id=249440109]
 current = true
+
+[node name="FmodListener3D" type="FmodListener3D" parent="Player/CameraMount/PlayerCam" unique_id=82698227]
+
+[node name="GroundRayCheck" type="RayCast3D" parent="Player" unique_id=889960468]
+target_position = Vector3(0, -1.2, 0)
+collision_mask = 2
 
 [node name="WheelChairMesh" type="MeshInstance3D" parent="Player" unique_id=1350579940]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
@@ -282,3 +337,8 @@ countdown_label = NodePath("../HideAndSeekUI/CountdownLabel")
 seek_timer_label = NodePath("../HideAndSeekUI/SeekTimerLabel")
 result_label = NodePath("../HideAndSeekUI/ResultLabel")
 found_popup_label = NodePath("../HideAndSeekUI/FoundPopupLabel")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="HideAndSeekManager" unique_id=933292081]
+radius = 0.1
+
+[connection signal="body_entered" from="Map/WheelChair/Area3D" to="Map/WheelChair" method="_on_area_3d_body_entered"]
