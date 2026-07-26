@@ -74,9 +74,9 @@ var is_frozen: bool = false
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # FMOD 
-#@onready var footsteps = $Mesh/Footsteps
-#@onready var wheelchair = $Mesh/Wheelchair
-#@onready var ground_ray = $GroundRayCheck
+@onready var footsteps = get_node_or_null("Footsteps")
+@onready var wheelchair = get_node_or_null("wheel")
+@onready var ground_ray = get_node_or_null("GroundRayCheck")
 
 # LIFECYCLE
 func _ready() -> void:
@@ -207,11 +207,15 @@ func _handle_wheelchair_movement(delta: float) -> void:
 	if move_direction:
 		velocity.x = move_toward(velocity.x, target_velocity.x, wheelchair_acceleration * delta)
 		velocity.z = move_toward(velocity.z, target_velocity.z, wheelchair_acceleration * delta)
-		#wheelchair.play(false)
+		if wheelchair:
+			wheelchair.play(false)
+		$"../FmodEventEmitter2D".set_parameter("Hospital States", "Moving")
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, wheelchair_acceleration * delta)
 		velocity.z = move_toward(velocity.z, 0.0, wheelchair_acceleration * delta)
-		#wheelchair.stop()
+		if wheelchair:
+			wheelchair.stop()
+		$"../FmodEventEmitter2D".set_parameter("Hospital States", "Still")
 
 func _update_wheelchair_shake(delta: float) -> void:
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
@@ -258,33 +262,42 @@ func _handle_jump() -> void:
 # MOVEMENT
 func _handle_movement(delta: float) -> void:
 	if is_wheelchair_mode:
-		#footsteps.stop()
+		if is_instance_valid(footsteps):
+			footsteps.stop()
 		_handle_wheelchair_movement(delta)
 		return
-	#wheelchair.stop()
+	if wheelchair:
+		wheelchair.stop()
 	var input_direction := Input.get_vector("left", "right", "forward", "backward")
 	var movement_direction := _get_movement_direction(input_direction)
 	var current_speed := sprint_speed if Input.is_action_pressed("sprint") else walk_speed
 	
 	# FMOD PARAMETERS
-	#if ground_ray.is_colliding():
-		#var ground = ground_ray.get_collider()
-		#if "Type" in ground:
-			#match ground.Type:
-				#"Mind":
-					#footsteps.set_parameter("Ground Type", "Mind")
-				#"Level":
-					#footsteps.set_parameter("Ground Type", "Level")
-	#if Input.is_action_pressed("sprint"):
-		#footsteps.set_parameter("Speed", "Sprint")
-	#else:
-		#footsteps.set_parameter("Speed", "Walk")
+	if is_instance_valid(ground_ray) and ground_ray.is_colliding():
+		var ground = ground_ray.get_collider()
+		if ground:
+			if "Type" in ground:
+				match ground.Type:
+					"Mind":
+						if is_instance_valid(footsteps):
+							footsteps.set_parameter("Ground Type", "Mind")
+
+					"Level":
+						if is_instance_valid(footsteps):
+							footsteps.set_parameter("Ground Type", "Level")
+	if Input.is_action_pressed("sprint"):
+		if footsteps:
+			footsteps.set_parameter("Speed", "Sprint")
+	else:
+		if footsteps:
+			footsteps.set_parameter("Speed", "Walk")
 		
 	if is_on_floor():
 		_move_on_ground(movement_direction, current_speed, delta)
 	else:
 		_move_in_air(movement_direction, current_speed, delta)
-		#footsteps.stop()
+		if is_instance_valid(footsteps):
+			footsteps.stop()
 
 func _get_movement_direction(input_direction: Vector2) -> Vector3:
 	var direction := Vector3(input_direction.x, 0.0, input_direction.y)
@@ -300,7 +313,8 @@ func _move_on_ground(direction: Vector3, speed: float, delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, ground_deceleration * delta)
 		velocity.z = move_toward(velocity.z, 0.0, ground_deceleration * delta)
-		#footsteps.stop()
+		if is_instance_valid(footsteps):
+			footsteps.stop()
 
 func _move_in_air(direction: Vector3, speed: float, delta: float) -> void:
 	var target_velocity := direction * speed
@@ -338,3 +352,11 @@ func freeze_movement(should_freeze: bool) -> void:
 		
 func get_player_bounds()-> AABB:
 	return $Mesh.get_aabb();
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	toggle_wheelchair_mode()
+	$"../Door_swing/Camera3D".make_current()
+	var resource = load("res://Dialouge/Diagnosis.dialogue")
+	DialogueManager.show_dialogue_balloon(resource, "start")
+	$"../FmodEventEmitter2D".set_parameter("Hospital States", "Door")

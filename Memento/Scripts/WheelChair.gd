@@ -21,11 +21,12 @@ func _on_interact() -> void:
 		return
 	if not player.is_wheelchair_mode:
 		_seat_player()
-	else:
-		_stand_player()
+	#else:
+		#_stand_player()
 	_update_prompt()
 
 func _seat_player() -> void:
+	$"../FmodEventEmitter2D".set_parameter("Hospital States", "Still")
 	if collision_shape:
 		collision_shape.disabled = true
 	player.global_position = seat_point.global_position + seat_offset_transformed()
@@ -71,5 +72,5 @@ func seat_offset_transformed() -> Vector3:
 	return -seat_point.global_transform.basis.z * seat_forward_offset
 
 
-func _on_area_3d_body_entered(body: Node3D) -> void:
-	$metalsound.play(false)
+#func _on_area_3d_body_entered(body: Node3D) -> void:
+	#$metalsound.play(false)
