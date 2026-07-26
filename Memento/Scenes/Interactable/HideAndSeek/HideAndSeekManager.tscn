@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cdavqhvjycqri"]
+
+[ext_resource type="Script" uid="uid://bx50hgxvnyg6e" path="res://Scripts/HideAndSeekManager.gd" id="1_i3awj"]
+[ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="2_67yee"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_c4dyq"]
+radius = 1.0
+
+[node name="HideAndSeekManager" type="Node3D" unique_id=100072910 node_paths=PackedStringArray("trigger_area", "npcs", "teleport_points")]
+script = ExtResource("1_i3awj")
+trigger_area = NodePath("InteractionArea")
+npcs = [null, null, null]
+teleport_points = [null, null, null]
+
+[node name="InteractionArea" parent="." unique_id=1023657923 instance=ExtResource("2_67yee")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=1850653125]
+shape = SubResource("SphereShape3D_c4dyq")
+debug_color = Color(0.37238213, 0.61169654, 0.19305581, 0.41960785)

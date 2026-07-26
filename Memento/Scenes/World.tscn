@@ -41,9 +41,9 @@ radius = 1.0
 [node name="3DPixelShader" parent="." unique_id=1947791935 instance=ExtResource("1_45d1s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1860320331]
+[node name="CarveUI" type="CanvasLayer" parent="." unique_id=1860320331]
 
-[node name="CarveReticle" type="TextureRect" parent="CanvasLayer" unique_id=1698664811]
+[node name="CarveReticle" type="TextureRect" parent="CarveUI" unique_id=1698664811]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -59,7 +59,7 @@ grow_vertical = 2
 texture = ExtResource("2_gjpho")
 expand_mode = 1
 
-[node name="CarveTimerLabel" type="Label" parent="CanvasLayer" unique_id=925289076]
+[node name="CarveTimerLabel" type="Label" parent="CarveUI" unique_id=925289076]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -68,6 +68,30 @@ offset_top = 10.575
 offset_right = 20.0
 offset_bottom = 33.575012
 grow_horizontal = 2
+
+[node name="HideAndSeekUI" type="CanvasLayer" parent="." unique_id=1689792741]
+
+[node name="ScreenFade" type="ColorRect" parent="HideAndSeekUI" unique_id=1478916265]
+visible = false
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0)
+
+[node name="CountdownLabel" type="Label" parent="HideAndSeekUI" unique_id=757699856]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
 
 [node name="Map" type="Node3D" parent="." unique_id=132563164]
 
@@ -123,8 +147,8 @@ script = ExtResource("2_j0p05")
 carve_time_limit = 30.0
 carve_sensitivity_multiplier = 0.1
 sensitivity_smoothing = 4.0
-carve_reticle = NodePath("../CanvasLayer/CarveReticle")
-carve_timer_label = NodePath("../CanvasLayer/CarveTimerLabel")
+carve_reticle = NodePath("../CarveUI/CarveReticle")
+carve_timer_label = NodePath("../CarveUI/CarveTimerLabel")
 player_model = NodePath("Mesh")
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]

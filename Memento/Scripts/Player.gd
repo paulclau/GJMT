@@ -70,6 +70,7 @@ var wheelchair_shake_time: float = 0.0
 var wheelchair_look_yaw: float = 0.0
 var standing_camera_mount_y: float = 0.0
 
+var is_frozen: bool = false
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # LIFECYCLE
@@ -78,7 +79,7 @@ func _ready() -> void:
 	standing_camera_mount_y = camera_mount.position.y
 
 func _unhandled_input(event: InputEvent) -> void:
-	if is_carving_mode:
+	if is_carving_mode or is_frozen:
 		return
 	if event is InputEventMouseMotion:
 		_handle_camera_look(event)
@@ -88,6 +89,11 @@ func _physics_process(delta: float) -> void:
 		_update_carve_cursor(delta)
 		_apply_gravity(delta)
 		move_and_slide()  # keeps them grounded while frozen
+		return
+	
+	if is_frozen:
+		_apply_gravity(delta)
+		move_and_slide()
 		return
 	
 	_apply_gravity(delta)
@@ -298,3 +304,8 @@ func _update_fov(delta: float) -> void:
 	var horizontal_speed := Vector2(velocity.x, velocity.z).length()
 	var target_fov := base_fov + (fov_change * horizontal_speed)
 	camera.fov = lerp(camera.fov, target_fov, fov_smoothing * delta)
+
+func freeze_movement(should_freeze: bool) -> void:
+	is_frozen = should_freeze
+	if should_freeze:
+		velocity = Vector3.ZERO

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://13jdg33yhx1"]
+
+[ext_resource type="Script" uid="uid://bxso1sq3pvqlq" path="res://Scripts/HideSeekNPC.gd" id="1_ex3fe"]
+[ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="2_dvi6i"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
+radius = 1.0
+
+[node name="HideSeekNPC" type="Node3D" unique_id=896181813]
+script = ExtResource("1_ex3fe")
+
+[node name="InteractionArea" parent="." unique_id=1023657923 instance=ExtResource("2_dvi6i")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea" unique_id=1464596072]
+shape = SubResource("SphereShape3D_ahg1b")
