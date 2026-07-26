@@ -15,9 +15,13 @@ General/banks_path="res://Assets/Audio Banks/Desktop"
 [application]
 
 config/name="GJMT"
-run/main_scene="uid://plgqgc366oje"
+run/main_scene="uid://chj1d8qx4gyfh"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://t664sakv65uk"
 
 [autoload]
 
@@ -25,7 +29,10 @@ InteractionManager="*uid://cyx2okrxrhasq"
 FmodManager="*uid://cds10pm7hwn3p"
 DialogueManager="*uid://c3rodes2l3gxb"
 GameState="*uid://cvaqva8wesjud"
-SceneLoader="*uid://cmx3d6rjg501t"
+SceneLoader="*uid://cbwmrnp0af35y"
+AppConfig="*uid://cjke6crjg14a0"
+ProjectMusicController="*uid://r5t485lr3p7t"
+ProjectUISoundController="*uid://cc37235kj4384"
 
 [display]
 
@@ -36,7 +43,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/fmod/plugin.cfg")
 
 [input]
 
@@ -83,6 +90,7 @@ carve={
 
 [internationalization]
 
+locale/translations=PackedStringArray("res://addons/maaacks_menus_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_menus_template/base/translations/menus_translations.fr.translation")
 locale/translations_pot_files=PackedStringArray("res://Dialouge/Halloween.dialogue", "res://Dialouge/Diagnosis.dialogue", "res://Dialouge/Classroom.dialogue", "res://Dialouge/Birthday.dialogue", "res://Dialouge/DoctorNote.dialogue")
 
 [layer_names]
@@ -90,6 +98,18 @@ locale/translations_pot_files=PackedStringArray("res://Dialouge/Halloween.dialog
 3d_physics/layer_1="player"
 3d_physics/layer_2="world"
 enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+
+[maaacks_game_template]
+
+disable_install_audio_busses=true
+disable_update_check=false
+disable_install_wizard=true
+
+[maaacks_menus_template]
+
+disable_install_audio_busses=true
+disable_update_check=false
+disable_install_wizard=true
 
 [physics]
 
