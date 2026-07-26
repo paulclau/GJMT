@@ -1,5 +1,8 @@
 [gd_scene format=4 uid="uid://d23uywqurujst"]
 
+[ext_resource type="Script" uid="uid://dnhqbo3oo66gm" path="res://Scripts/ModelShifter.gd" id="1_dojgs"]
+[ext_resource type="PackedScene" uid="uid://dko0v3t257q0p" path="res://Scenes/PinataPieces.tscn" id="2_wvroj"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fl5r0"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_uvde6"]
@@ -100,7 +103,11 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_xrtn7")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
+
 [node name="PINATA" type="Node3D" unique_id=1560461176]
+script = ExtResource("1_dojgs")
+broken_model = ExtResource("2_wvroj")
 
 [node name="PinataHead" type="MeshInstance3D" parent="." unique_id=1978659480]
 transform = Transform3D(0.114365965, 0, 0, 0, 0.114365965, 0, 0, 0, 0.2436005, 0, 0, 0)
@@ -113,3 +120,10 @@ mesh = SubResource("ArrayMesh_te6ac")
 [node name="Pinata" type="MeshInstance3D" parent="." unique_id=142396175]
 transform = Transform3D(0.114365965, 0, 0, 0, 0.114365965, 0, 0, 0, 0.2436005, 0, 0, 0)
 mesh = SubResource("ArrayMesh_y1rft")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=326215795]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=508952499]
+shape = SubResource("SphereShape3D_ahg1b")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
