@@ -3,4 +3,5 @@ Mum: Oh no, this Pumpkin’s head is [speed=0.2]rotten
 Mum: I’m sorry, baby, we have to throw it away
 - Ben's Thoughts
 	Ben: Mum, it’s okay, [speed=0.2]they’re like me
+	do get_tree().change_scene_to_file("res://Scenes/Hospital.tscn")
 => END
