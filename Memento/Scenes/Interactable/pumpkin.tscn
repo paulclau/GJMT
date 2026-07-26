@@ -1,5 +1,3 @@
-[gd_scene format=3 uid="uid://73qcqd8gixur"]
+[gd_scene format=3 uid="uid://dct45f0u02d82"]
 
-[ext_resource type="PackedScene" uid="uid://bvikc0mycae4a" path="res://Assets/char/Pumpkin by Quaternius - bvLvqnU1jX.glb" id="1_26tri"]
-
-[node name="Root Scene" unique_id=1641580908 instance=ExtResource("1_26tri")]
+[node name="Root Scene" unique_id=1641580908]
