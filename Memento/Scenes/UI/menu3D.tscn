@@ -1,5 +1,6 @@
 [gd_scene format=4 uid="uid://cetejyr0a5vmt"]
 
+[ext_resource type="Script" uid="uid://bg753ljyeqy3w" path="res://Scenes/UI/menu_3d.gd" id="1_36v3d"]
 [ext_resource type="Script" uid="uid://cytaioe5cxg28" path="res://Scripts/menu.gd" id="1_iiqwq"]
 [ext_resource type="Texture2D" uid="uid://yr1qtw1p4x4j" path="res://Assets/Textures/HOSPITAL/HOSPITAL_Ceiling_1_BaseColor.png" id="1_ittrk"]
 [ext_resource type="PackedScene" uid="uid://djetf7vh16704" path="res://Scenes/3DPixelShader.tscn" id="1_jl130"]
@@ -460,6 +461,7 @@ radius = 0.01
 height = 0.02
 
 [node name="Menu3d" type="Node3D" unique_id=418157257]
+script = ExtResource("1_36v3d")
 
 [node name="3DPixelShader" parent="." unique_id=1947791935 instance=ExtResource("1_jl130")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -524,9 +526,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -234.0
-offset_top = 89.475
+offset_top = 89.0
 offset_right = 234.00092
-offset_bottom = 265.475
+offset_bottom = 265.0
 grow_horizontal = 2
 text = "Momento"
 label_settings = SubResource("LabelSettings_mxsx2")
@@ -547,6 +549,17 @@ draw_pass_1 = SubResource("SphereMesh_6r0kb")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1731104819]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.272862, 2.2212539, -2.1273866)
+
+[node name="FmodBankLoader" type="FmodBankLoader" parent="." unique_id=705823406]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Main Menu.bank"]
+
+[node name="FmodEventEmitter2D" type="FmodEventEmitter2D" parent="." unique_id=744981725]
+event_name = "event:/Music/Main Menu"
+event_guid = "{895f27b3-6df0-4e87-b744-7a9c344813fc}"
+autoplay = true
+auto_release = true
+
+[node name="FmodListener2D" type="FmodListener2D" parent="FmodEventEmitter2D" unique_id=236179264]
 
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/New Game" to="Menu" method="_on_new_game_pressed"]
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/Exit" to="Menu" method="_on_exit_pressed"]
