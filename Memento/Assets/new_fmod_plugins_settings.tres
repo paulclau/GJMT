@@ -1,0 +1,18 @@
+[gd_resource type="FmodPluginsSettings" format=3 uid="uid://dm0uy7ir0u7qr"]
+
+[sub_resource type="FmodStaticPluginMethod" id="FmodStaticPluginMethod_6pk6i"]
+type = 1
+method_name = "FMOD_SteamAudio_Spatialize_GetDSPDescription"
+
+[sub_resource type="FmodStaticPluginMethod" id="FmodStaticPluginMethod_6mi2b"]
+type = 1
+method_name = "FMOD_SteamAudio_MixerReturn_GetDSPDescription"
+
+[sub_resource type="FmodStaticPluginMethod" id="FmodStaticPluginMethod_55fcp"]
+type = 1
+method_name = "FMOD_SteamAudio_Reverb_GetDSPDescription"
+
+[resource]
+plugins_base_path = "res://Assets/plugins"
+dynamic_plugin_list = PackedStringArray("phonon_fmod")
+static_plugins_methods = [SubResource("FmodStaticPluginMethod_6pk6i"), SubResource("FmodStaticPluginMethod_6mi2b"), SubResource("FmodStaticPluginMethod_55fcp")]

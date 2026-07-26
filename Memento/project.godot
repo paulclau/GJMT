@@ -12,6 +12,7 @@ config_version=5
 
 General/banks_path="res://Assets/Audio Banks/Desktop"
 General/should_load_by_name=true
+Plugins/path_to_plugin_configuration="uid://dm0uy7ir0u7qr"
 
 [application]
 
