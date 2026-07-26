@@ -4,6 +4,7 @@ Mum: If you [shake]break[/shake] it open, you can see what's [wave]inside[/wave]
 => END
 
 ~ pinata
+
 if GameState.BirthdayWin
 	Ben: [speed=0.2]I don’t like my birthday anymore…
 	do get_tree().change_scene_to_file("res://Scenes/UI/end3D.tscn")

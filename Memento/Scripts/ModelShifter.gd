@@ -18,14 +18,15 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 		return
 	if not body is CharacterBody3D:
 		return
-	
+	$Camera3D.make_current()
 	_break_pinata()
 
 func _break_pinata() -> void:
 	has_broken = true
-	
+	$Camera3D.make_current()
 	broken_model_instance.process_mode = Node.PROCESS_MODE_INHERIT
 	broken_model_instance.show()
+	
 	$FmodEventEmitter3D.play()
 	var resource = load("res://Dialouge/Birthday.dialogue")
 	DialogueManager.show_dialogue_balloon(resource, "pinata")
