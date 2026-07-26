@@ -58,6 +58,7 @@ func create_pillow() -> void:
 	
 	var new_pillow = pillow_scene.instantiate(PackedScene.GEN_EDIT_STATE_DISABLED) as Node3D
 	get_parent().add_child.call_deferred(new_pillow)
+	new_pillow.global_rotation = player_ref.global_rotation;
 	new_pillow.global_position = PillowPosition
 	
 	is_spawning = false # Unlock the function
