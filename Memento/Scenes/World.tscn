@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="4_45d1s"]
 [ext_resource type="PackedScene" uid="uid://13jdg33yhx1" path="res://Scenes/Interactable/HideAndSeek/HideSeekNPC.tscn" id="6_q2d71"]
 [ext_resource type="PackedScene" uid="uid://33cecttgih8b" path="res://Scenes/Interactable/SceneTransitionInteractable.tscn" id="7_uo7di"]
+[ext_resource type="PackedScene" uid="uid://d23uywqurujst" path="res://Scenes/Pinata.tscn" id="8_kn06e"]
 [ext_resource type="PackedScene" uid="uid://cdavqhvjycqri" path="res://Scenes/Interactable/HideAndSeek/HideAndSeekManager.tscn" id="8_uo7di"]
 [ext_resource type="PackedScene" uid="uid://bpig5p2mukshp" path="res://Assets/char/Casual Character by Quaternius - kZ3DmIoGip.glb" id="10_kwl8l"]
 [ext_resource type="PackedScene" uid="uid://cf8uamyu8fdig" path="res://Assets/char/Doctor by jeremy - 0N-0gZmlVOb.glb" id="11_xiqgv"]
@@ -67,6 +68,7 @@ height = 0.4
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
+radius = 0.1
 
 [node name="World" type="Node3D" unique_id=138928880]
 
@@ -263,12 +265,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.855, 1, 7.553)
 
 [node name="SceneTransitionInteractable" parent="Map" unique_id=276440399 instance=ExtResource("7_uo7di")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.632742, 1, 4.886565)
-target_scene_path = "uid://djgu8lx5oakot"
-prompt_text = "travel to World-2"
+target_scene_path = "uid://duhx4q4ilag63"
+prompt_text = "travel to the classroom"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/SceneTransitionInteractable" unique_id=1896031707]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
 mesh = SubResource("CylinderMesh_ahg1b")
+
+[node name="PINATA" parent="Map" unique_id=1560461176 instance=ExtResource("8_kn06e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.188948, -3.2840166)
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9284465, 1.0000005, 3.300083)
