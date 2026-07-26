@@ -6,6 +6,7 @@ class_name InterationArea
 var interact: Callable = func():
 	pass
 
+
 func _on_body_entered(_body: Node3D) -> void:
 	if _body is CharacterBody3D:
 		InteractionManager.register_area(self)

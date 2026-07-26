@@ -1,28 +1,28 @@
 extends Node3D
 
-enum State { INACTIVE, EYES_CLOSED, SEEKING, RESULT }
+enum State { INACTIVE, EYES_CLOSED, SEEKING, RESULT, FREE_ROAM }
 
 @export_group("References")
 @export var player: Player
-@export var start_position: Marker3D # where the player resets to after each round
-@export var trigger_area: InterationArea # the wall/interactable that starts the game
+@export var start_position: Marker3D
+@export var trigger_area: InterationArea
 @export var npcs: Array[HideSeekNPC] = []
 @export var teleport_points: Array[Marker3D] = []
 
 @export_group("UI")
-@export var screen_fade: ColorRect # fullscreen black overlay, alpha starts at 0
+@export var screen_fade: ColorRect
 @export var countdown_label: Label
 @export var seek_timer_label: Label
 @export var result_label: Label
-@export var found_popup_label: Label # brief "Found x/y!" flash on each tag
+@export var found_popup_label: Label
+@export var found_popup_duration: float = 1.2
+@export var found_popup_fade_time: float = 0.3
 
 @export_group("Timing")
 @export var eyes_closed_duration: float = 5.0
 @export var seek_time_limit: float = 60.0
 @export var fade_duration: float = 1.0
 @export var result_display_duration: float = 3.0
-@export var found_popup_duration: float = 1.2
-@export var found_popup_fade_time: float = 0.3
 
 var state: State = State.INACTIVE
 var found_count: int = 0
@@ -32,10 +32,9 @@ var found_popup_tween: Tween = null
 func _ready() -> void:
 	trigger_area.interact = Callable(self, "_on_trigger_interact")
 	trigger_area.action_name = "play hide and seek"
-	
+	_set_trigger_interactable(true)
 	for npc in npcs:
 		npc.manager = self
-		
 	if screen_fade:
 		screen_fade.color.a = 0.0
 		screen_fade.hide()
@@ -52,35 +51,33 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if state != State.SEEKING:
 		return
-	
-	seek_time_remaining = max(seek_time_remaining - _delta_time(), 0.0)
+	seek_time_remaining = max(seek_time_remaining - get_process_delta_time(), 0.0)
 	_update_seek_label()
 	if seek_time_remaining <= 0.0:
 		_end_game(false)
 
-func _delta_time() -> float:
-	return get_process_delta_time()
-
 # TRIGGER
 func _on_trigger_interact() -> void:
-	if state != State.INACTIVE:
-		return
-	_start_game()
+	if state == State.INACTIVE:
+		_start_game()
+	elif state == State.FREE_ROAM:
+		_finish_game()
 
 # GAME FLOW
 func _start_game() -> void:
-	state = State.EYES_CLOSED
+	if state != State.INACTIVE:
+		return
+	state = State.EYES_CLOSED  # set before any await, blocks re-entry
 	found_count = 0
 	for npc in npcs:
 		npc.reset_found()
-	
+		npc.set_interactable(false)
+	_set_trigger_interactable(false)
 	player.freeze_movement(true)
-	
 	await _fade_to_black()
 	await _run_countdown(eyes_closed_duration, countdown_label, "Get ready...")
 	_teleport_npcs()
 	await _fade_from_black()
-	
 	_start_seeking()
 
 func _start_seeking() -> void:
@@ -89,6 +86,10 @@ func _start_seeking() -> void:
 	if seek_timer_label:
 		seek_timer_label.show()
 	player.freeze_movement(false)
+	
+	for npc in npcs:
+		npc.set_interactable(true)
+	
 	_update_seek_label()
 
 func npc_found(_npc: HideSeekNPC) -> void:
@@ -96,30 +97,12 @@ func npc_found(_npc: HideSeekNPC) -> void:
 		return
 	found_count += 1
 	_show_found_popup()
-
+	
 	if found_count >= npcs.size():
 		_end_game(true)
 
-func _show_found_popup() -> void:
-	if not found_popup_label:
-		return
-	
-	found_popup_label.text = "Found %d/%d!" % [found_count, npcs.size()]
-	found_popup_label.show()
-	
-	# cancel any popup already fading out from a previous find, so rapid tags don't fight each other 
-	if found_popup_tween and found_popup_tween.is_valid():
-		found_popup_tween.kill()
-	
-	found_popup_tween = create_tween()
-	found_popup_tween.tween_property(found_popup_label, "modulate:a", 1.0, found_popup_fade_time)
-	found_popup_tween.tween_interval(found_popup_duration)
-	found_popup_tween.tween_property(found_popup_label, "modulate:a", 0.0, found_popup_fade_time)
-	found_popup_tween.tween_callback(found_popup_label.hide)
-
 func _end_game(won: bool) -> void:
 	state = State.RESULT
-	player.freeze_movement(true)
 	
 	if seek_timer_label:
 		seek_timer_label.hide()
@@ -131,17 +114,44 @@ func _end_game(won: bool) -> void:
 	
 	if result_label:
 		result_label.hide()
-	_reset_game()
+	
+	_enter_free_roam()
 
-func _reset_game() -> void:
+# Player keeps moving freely, NPCs become talkable, trigger switches to
+# "finish" — round only resets once the player ends it themselves.
+func _enter_free_roam() -> void:
+	state = State.FREE_ROAM
+	trigger_area.action_name = "finish hide and seek"
+	_set_trigger_interactable(true)
+	
+	for npc in npcs:
+		npc.set_interactable(true)
+
+func _finish_game() -> void:
+	if not is_instance_valid(start_position):
+		push_error("HideAndSeekManager: start_position is not assigned!")
+		return
+	_set_trigger_interactable(false)
+	player.freeze_movement(true)
+	await _fade_to_black()
+	
+	player.velocity = Vector3.ZERO
 	player.global_position = start_position.global_position
 	player.global_rotation = start_position.global_rotation
 	
 	for npc in npcs:
 		npc.reset_position()
-	
-	player.freeze_movement(false)
+		npc.set_interactable(false)
+	trigger_area.action_name = "play hide and seek"
 	state = State.INACTIVE
+	await _fade_from_black()
+	player.freeze_movement(false)
+	_set_trigger_interactable(true)
+
+func _set_trigger_interactable(active: bool) -> void:
+	trigger_area.monitoring = active
+	if not active:
+		InteractionManager.unregister_area(trigger_area)
 
 # TELEPORT
 func _teleport_npcs() -> void:
@@ -191,3 +201,18 @@ func _run_countdown(duration: float, label: Label, prefix: String) -> void:
 func _update_seek_label() -> void:
 	if seek_timer_label:
 		seek_timer_label.text = "%d" % ceil(seek_time_remaining)
+
+# FOUND POPUP
+func _show_found_popup() -> void:
+	if not found_popup_label:
+		return
+	
+	found_popup_label.text = "Found %d/%d!" % [found_count, npcs.size()]
+	found_popup_label.show()
+	if found_popup_tween and found_popup_tween.is_valid():
+		found_popup_tween.kill()
+	found_popup_tween = create_tween()
+	found_popup_tween.tween_property(found_popup_label, "modulate:a", 1.0, found_popup_fade_time)
+	found_popup_tween.tween_interval(found_popup_duration)
+	found_popup_tween.tween_property(found_popup_label, "modulate:a", 0.0, found_popup_fade_time)
+	found_popup_tween.tween_callback(found_popup_label.hide)
