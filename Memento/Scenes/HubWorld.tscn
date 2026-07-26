@@ -101,5 +101,5 @@ event_name = "event:/Music/Mind"
 event_guid = "{6c5f6fc6-d37b-46d5-80f7-6b697b3524a1}"
 autoplay = true
 "fmod_parameters/Mind Progress/id" = 3278793843506833935
-"fmod_parameters/Mind Progress" = 1
+"fmod_parameters/Mind Progress" = 4
 "fmod_parameters/Mind Progress/variant_type" = 2
