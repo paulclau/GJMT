@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://bagnn01rghi46"
+path="res://.godot/imported/Halloween.dialogue-13a09eb354dd05eb5ca719edf0e30354.tres"
+
+[deps]
+
+source_file="res://Dialouge/Halloween.dialogue"
+dest_files=["res://.godot/imported/Halloween.dialogue-13a09eb354dd05eb5ca719edf0e30354.tres"]
+
+[params]
+
+defaults=true

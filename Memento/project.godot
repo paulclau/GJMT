@@ -15,10 +15,23 @@ run/main_scene="uid://m5rwdrfjohsw"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DialogueManager="*uid://c3rodes2l3gxb"
+GameState="*uid://cvaqva8wesjud"
+
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://Dialouge/Halloween.dialogue", "res://Dialouge/Diagnosis.dialogue", "res://Dialouge/Classroom.dialogue", "res://Dialouge/Birthday.dialogue", "res://Dialouge/DoctorNote.dialogue")
 
 [physics]
 
