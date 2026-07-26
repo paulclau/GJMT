@@ -40,13 +40,14 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1035619744 node_paths=PackedStringArray("player_model") groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9284465, 1.0000005, 3.300083)
 collision_mask = 2
 script = ExtResource("2_ruj7l")
 carve_sensitivity_multiplier = 0.163
 player_model = NodePath("Mesh")
 
 [node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1040850996]
-bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank"]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank", "res://Assets/Audio Banks/Desktop/Mind Palace.bank"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=1814530513]
 mesh = SubResource("CapsuleMesh_fxrh3")
@@ -95,3 +96,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_3jcx2")
 mesh = SubResource("BoxMesh_nnxqx")
+
+[node name="FmodEventEmitter2D" type="FmodEventEmitter2D" parent="." unique_id=800575465]
+event_name = "event:/Music/Mind"
+event_guid = "{6c5f6fc6-d37b-46d5-80f7-6b697b3524a1}"
+autoplay = true
+"fmod_parameters/Mind Progress/id" = 3278793843506833935
+"fmod_parameters/Mind Progress" = 4
+"fmod_parameters/Mind Progress/variant_type" = 2

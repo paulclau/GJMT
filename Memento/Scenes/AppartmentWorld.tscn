@@ -20,6 +20,19 @@
 [ext_resource type="PackedScene" uid="uid://bpig5p2mukshp" path="res://Assets/char/Casual Character by Quaternius - kZ3DmIoGip.glb" id="16_uw3us"]
 [ext_resource type="PackedScene" uid="uid://b6ytdk8compud" path="res://Assets/char/Animated Woman by Quaternius - qJ2gsTUBHL.glb" id="17_a67nc"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mld33"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+energy_multiplier = 2.75
+
+[sub_resource type="Sky" id="Sky_6vg8o"]
+sky_material = SubResource("ProceduralSkyMaterial_mld33")
+
+[sub_resource type="Environment" id="Environment_yrk5j"]
+background_mode = 2
+sky = SubResource("Sky_6vg8o")
+glow_enabled = true
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ibs6p"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xa5w8"]
@@ -371,6 +384,9 @@ height = 0.02
 
 [node name="Node3D" type="Node3D" unique_id=539816431]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1426716221]
+environment = SubResource("Environment_yrk5j")
+
 [node name="3DPixelShader" parent="." unique_id=1947791935 instance=ExtResource("1_xjnxl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
@@ -385,6 +401,7 @@ player_model = NodePath("Mesh")
 bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=974843563]
+visible = false
 mesh = SubResource("CapsuleMesh_ibs6p")
 
 [node name="Footsteps" type="FmodEventEmitter3D" parent="Player/Mesh" unique_id=205800655]
@@ -434,7 +451,7 @@ mesh = SubResource("BoxMesh_gohb4")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Player" unique_id=1549105266]
 light_color = Color(0.60960835, 0.60960835, 0.60960835, 1)
-omni_range = 1.924
+omni_range = 1.939
 
 [node name="APT" type="Node" parent="." unique_id=769252562]
 
