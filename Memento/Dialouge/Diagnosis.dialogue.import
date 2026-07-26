@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dtyfqr0pvayui"
+path="res://.godot/imported/Diagnosis.dialogue-a10415800ee1ea211840392028e27a0a.tres"
+
+[deps]
+
+source_file="res://Dialouge/Diagnosis.dialogue"
+dest_files=["res://.godot/imported/Diagnosis.dialogue-a10415800ee1ea211840392028e27a0a.tres"]
+
+[params]
+
+defaults=true

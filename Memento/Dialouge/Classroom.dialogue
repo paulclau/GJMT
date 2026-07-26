@@ -1,0 +1,26 @@
+~ start
+Ben: Let's play hide and seek, 
+Ben: Before the teacher comes.
+=> END
+
+~ countdown
+Ben: 10
+Ben: 9
+Ben: 8
+Ben: 7
+Ben: 6
+Ben: 5
+Ben: 4
+Ben: 3
+Ben: 2
+Ben: 1
+Ben: Ready or Not! 
+Ben: Here I come!
+=> END
+
+~ seekend
+if GameState.SeekWin
+	Ben: I found all my friends! Hooray!
+else
+	Ben: [speed=0.2]I can't find all my friends...
+=> END

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dd7hdf45jp0yp"
+path="res://.godot/imported/DoctorNote.dialogue-cb6179fdab1170478b510ace4d869e12.tres"
+
+[deps]
+
+source_file="res://Dialouge/DoctorNote.dialogue"
+dest_files=["res://.godot/imported/DoctorNote.dialogue-cb6179fdab1170478b510ace4d869e12.tres"]
+
+[params]
+
+defaults=true

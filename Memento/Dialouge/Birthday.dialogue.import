@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://xcpjhj5r6tqf"
+path="res://.godot/imported/Birthday.dialogue-02bf63b1ac9b5022340385ca12b87bd7.tres"
+
+[deps]
+
+source_file="res://Dialouge/Birthday.dialogue"
+dest_files=["res://.godot/imported/Birthday.dialogue-02bf63b1ac9b5022340385ca12b87bd7.tres"]
+
+[params]
+
+defaults=true
