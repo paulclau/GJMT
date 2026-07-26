@@ -366,6 +366,9 @@ height = 2.5800781
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7mk5h"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_mld33"]
+size = Vector3(2.513794, 1, 1)
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mld33"]
 emission_shape_scale = Vector3(4.72, 1.165, 6.485)
 emission_shape = 3
@@ -391,7 +394,7 @@ environment = SubResource("Environment_yrk5j")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=2133150212 node_paths=PackedStringArray("player_model") groups=["player"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9984219, 1.0185195, -10.132246)
+transform = Transform3D(-0.986886, 0, 0.16141872, 0, 1, 0, -0.16141872, 0, -0.986886, -3.3660855, 1.0185195, -3.5574913)
 collision_mask = 2
 script = ExtResource("13_lew0y")
 carve_sensitivity_multiplier = 0.163
@@ -577,8 +580,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.72707176, 0)
 [node name="dad" parent="." unique_id=290075944 instance=ExtResource("16_uw3us")]
 transform = Transform3D(-0.9139962, 0, 0.40572265, 0, 1, 0, -0.40572265, 0, -0.9139962, -3.7974615, -0.021721486, -0.8110368)
 
+[node name="Camera3D" type="Camera3D" parent="dad" unique_id=1632643767]
+transform = Transform3D(0.9187913, 0.17767368, 0.35249805, 0, 0.8929789, -0.4500985, -0.39474398, 0.4135466, 0.8204612, 0.33289623, 0.7339889, 1.2477262)
+
 [node name="mum" parent="." unique_id=1787731623 instance=ExtResource("17_a67nc")]
 transform = Transform3D(-0.9999868, 0, 0.0051297043, 0, 1, 0, -0.0051297043, 0, -0.9999868, -3.1513257, -0.014552036, -0.46246457)
+
+[node name="Area3D" type="Area3D" parent="mum" unique_id=1815542789]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, -0.6686077, 0, 1.1941538)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="mum/Area3D" unique_id=469837302]
+transform = Transform3D(1.0000044, 0, -2.9336661e-08, 0, 1.0000019, 0, 3.7718564e-08, 0, 0.9999773, 0.7569001, 0.17496657, -2.3841858e-07)
+shape = SubResource("BoxShape3D_mld33")
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=944913186]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0778089, 1.258786, -6.579974)
@@ -586,3 +599,5 @@ amount = 400
 lifetime = 21.55
 process_material = SubResource("ParticleProcessMaterial_mld33")
 draw_pass_1 = SubResource("SphereMesh_6vg8o")
+
+[connection signal="body_entered" from="mum/Area3D" to="Player" method="birthday"]

@@ -26,14 +26,13 @@ albedo_color = Color(0.4627451, 0.28235295, 0.2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_nnxqx"]
 
-[node name="Node3D" type="Node3D" unique_id=1740177033]
+[node name="Node3D2" type="Node3D" unique_id=1740177033]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1919981868]
 environment = SubResource("Environment_fxrh3")
 
 [node name="PillowSpawner" type="Node" parent="." unique_id=2101066564]
 script = ExtResource("1_ruj7l")
-SpawnInterval = 0.5
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1769493572]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
