@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://cxeeu0t5v1538" path="res://Scripts/WheelChair.gd" id="3_p70al"]
 [ext_resource type="Script" uid="uid://da4jxcrdrpko" path="res://Scenes/groundtype.gd" id="3_y7y61"]
 [ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="4_45d1s"]
+[ext_resource type="PackedScene" uid="uid://13jdg33yhx1" path="res://Scenes/Interactable/HideAndSeek/HideSeekNPC.tscn" id="6_q2d71"]
+[ext_resource type="PackedScene" uid="uid://cdavqhvjycqri" path="res://Scenes/Interactable/HideAndSeek/HideAndSeekManager.tscn" id="8_uo7di"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uo7di"]
 sky_top_color = Color(0.09862233, 0.4339258, 0.8509813, 1)
@@ -33,6 +35,24 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 [sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
 radius = 1.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kn06e"]
+albedo_color = Color(0.88235295, 0.17254902, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_c4dyq"]
+material = SubResource("StandardMaterial3D_kn06e")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7yo87"]
+albedo_color = Color(0.75450253, 0.16728273, 0.78520876, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ti1bm"]
+material = SubResource("StandardMaterial3D_7yo87")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8l3nt"]
+albedo_color = Color(0.47058824, 0.8039216, 0.14117648, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kwl8l"]
+material = SubResource("StandardMaterial3D_8l3nt")
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
@@ -41,10 +61,11 @@ radius = 1.0
 
 [node name="3DPixelShader" parent="." unique_id=1947791935 instance=ExtResource("1_45d1s")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 
-[node name="CarveUI" type="CanvasLayer" parent="." unique_id=1860320331]
+[node name="CarveUI" type="CanvasLayer" parent="." unique_id=1952468772]
 
-[node name="CarveReticle" type="TextureRect" parent="CarveUI" unique_id=1698664811]
+[node name="CarveReticle" type="TextureRect" parent="CarveUI" unique_id=5395707]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -60,7 +81,8 @@ grow_vertical = 2
 texture = ExtResource("2_gjpho")
 expand_mode = 1
 
-[node name="CarveTimerLabel" type="Label" parent="CarveUI" unique_id=925289076]
+[node name="CarveTimerLabel" type="Label" parent="CarveUI" unique_id=307126196]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -70,15 +92,15 @@ offset_right = 20.0
 offset_bottom = 33.575012
 grow_horizontal = 2
 
-[node name="HideAndSeekUI" type="CanvasLayer" parent="." unique_id=1689792741]
+[node name="HideAndSeekUI" type="CanvasLayer" parent="." unique_id=1404749384]
 
-[node name="ScreenFade" type="ColorRect" parent="HideAndSeekUI" unique_id=1478916265]
+[node name="ScreenFade" type="ColorRect" parent="HideAndSeekUI" unique_id=1110038847]
 visible = false
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 0)
 
-[node name="CountdownLabel" type="Label" parent="HideAndSeekUI" unique_id=757699856]
+[node name="CountdownLabel" type="Label" parent="HideAndSeekUI" unique_id=1613809137]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -92,6 +114,43 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+
+[node name="SeekTimerLabel" type="Label" parent="HideAndSeekUI" unique_id=1760289252]
+visible = false
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 52.0
+theme_override_font_sizes/font_size = 30
+
+[node name="ResultLabel" type="Label" parent="HideAndSeekUI" unique_id=1881337148]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+
+[node name="FoundPopupLabel" type="Label" parent="HideAndSeekUI" unique_id=1607930656]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 30.0
+offset_right = 20.0
+offset_bottom = 53.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 30
 horizontal_alignment = 1
 
 [node name="Map" type="Node3D" parent="." unique_id=132563164]
@@ -152,6 +211,36 @@ shape = SubResource("SphereShape3D_ahg1b")
 [node name="SeatPoint" type="Marker3D" parent="Map/WheelChair" unique_id=615752246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57002264, 0)
 
+[node name="HideSeekNPC1" parent="Map" unique_id=896181813 instance=ExtResource("6_q2d71")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7452011, 1.0035205, -6.8338327)
+
+[node name="NPCMesh" type="MeshInstance3D" parent="Map/HideSeekNPC1" unique_id=1605255357]
+mesh = SubResource("CapsuleMesh_c4dyq")
+
+[node name="HideSeekNPC2" parent="Map" unique_id=941005878 instance=ExtResource("6_q2d71")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.445201, 1.0035205, -6.8338327)
+
+[node name="NPCMesh" type="MeshInstance3D" parent="Map/HideSeekNPC2" unique_id=1179054796]
+mesh = SubResource("CapsuleMesh_ti1bm")
+
+[node name="HideSeekNPC3" parent="Map" unique_id=2134170332 instance=ExtResource("6_q2d71")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.345201, 1.0035205, -6.8338327)
+
+[node name="NPCMesh" type="MeshInstance3D" parent="Map/HideSeekNPC3" unique_id=789133708]
+mesh = SubResource("CapsuleMesh_kwl8l")
+
+[node name="PlayerStartMarker" type="Marker3D" parent="Map" unique_id=1639205704]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="HiderMarker1" type="Marker3D" parent="Map" unique_id=1004674171]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.958, 1, 3.449)
+
+[node name="HiderMarker2" type="Marker3D" parent="Map" unique_id=1492964778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.294, 1, 5.306)
+
+[node name="HiderMarker3" type="Marker3D" parent="Map" unique_id=955434021]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.855, 1, 7.553)
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9284465, 1.0000005, 3.300083)
 collision_mask = 2
@@ -205,3 +294,20 @@ current = true
 [node name="GroundRayCheck" type="RayCast3D" parent="Player" unique_id=889960468]
 target_position = Vector3(0, -1.2, 0)
 collision_mask = 2
+[node name="WheelChairMesh" type="MeshInstance3D" parent="Player" unique_id=1350579940]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_4owis")
+mesh = SubResource("BoxMesh_c4dyq")
+
+[node name="HideAndSeekManager" parent="." unique_id=100072910 node_paths=PackedStringArray("player", "start_position", "npcs", "teleport_points", "screen_fade", "countdown_label", "seek_timer_label", "result_label", "found_popup_label") instance=ExtResource("8_uo7di")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5434132, 1, -5.3058133)
+player = NodePath("../Player")
+start_position = NodePath("../Map/PlayerStartMarker")
+npcs = [NodePath("../Map/HideSeekNPC1"), NodePath("../Map/HideSeekNPC2"), NodePath("../Map/HideSeekNPC3")]
+teleport_points = [NodePath("../Map/HiderMarker1"), NodePath("../Map/HiderMarker2"), NodePath("../Map/HiderMarker3")]
+screen_fade = NodePath("../HideAndSeekUI/ScreenFade")
+countdown_label = NodePath("../HideAndSeekUI/CountdownLabel")
+seek_timer_label = NodePath("../HideAndSeekUI/SeekTimerLabel")
+result_label = NodePath("../HideAndSeekUI/ResultLabel")
+found_popup_label = NodePath("../HideAndSeekUI/FoundPopupLabel")
