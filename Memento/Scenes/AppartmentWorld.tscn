@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://tdgj5g4r6fnh"]
 
 [ext_resource type="Texture2D" uid="uid://bhhltf4gikm6j" path="res://Assets/Textures/APT_wall/APT_walls_0.png" id="1_7mk5h"]
+[ext_resource type="PackedScene" uid="uid://djetf7vh16704" path="res://Scenes/3DPixelShader.tscn" id="1_xjnxl"]
 [ext_resource type="Texture2D" uid="uid://csp2j7rq6dgi1" path="res://Assets/Textures/APT_wall/APT_walls_1.png" id="2_ibs6p"]
 [ext_resource type="Texture2D" uid="uid://dkx1fgfu7wnr1" path="res://Assets/Textures/APT_wall/APT_walls_3.png" id="3_xa5w8"]
 [ext_resource type="Texture2D" uid="uid://bo4i87ijnkshd" path="res://Assets/Textures/APT_wall/APT_walls_2.png" id="4_4awy0"]
@@ -15,6 +16,9 @@
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="13_lew0y"]
 [ext_resource type="PackedScene" uid="uid://nkaoqldtonb7" path="res://Assets/PINATA.glb" id="14_iepm1"]
 [ext_resource type="Script" uid="uid://dn5upcqqp6qjl" path="res://stickgrabbable.gd" id="15_ibs6p"]
+[ext_resource type="Script" uid="uid://da4jxcrdrpko" path="res://Scenes/groundtype.gd" id="15_mld33"]
+[ext_resource type="PackedScene" uid="uid://bpig5p2mukshp" path="res://Assets/char/Casual Character by Quaternius - kZ3DmIoGip.glb" id="16_uw3us"]
+[ext_resource type="PackedScene" uid="uid://b6ytdk8compud" path="res://Assets/char/Animated Woman by Quaternius - qJ2gsTUBHL.glb" id="17_a67nc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ibs6p"]
 
@@ -349,15 +353,32 @@ height = 2.5800781
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7mk5h"]
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mld33"]
+emission_shape_scale = Vector3(4.72, 1.165, 6.485)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = -28.69999
+angle_max = -28.69999
+gravity = Vector3(0, -0.1, 0)
+scale_min = 0.39999998
+scale_max = 0.5
+turbulence_enabled = true
+turbulence_noise_strength = 0.7
+
+[sub_resource type="SphereMesh" id="SphereMesh_6vg8o"]
+radius = 0.01
+height = 0.02
+
 [node name="Node3D" type="Node3D" unique_id=539816431]
 
-[node name="Player" type="CharacterBody3D" parent="." unique_id=2133150212 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
+[node name="3DPixelShader" parent="." unique_id=1947791935 instance=ExtResource("1_xjnxl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=2133150212 node_paths=PackedStringArray("player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9984219, 1.0185195, -10.132246)
 collision_mask = 2
 script = ExtResource("13_lew0y")
 carve_sensitivity_multiplier = 0.163
-carve_reticle = NodePath("")
-carve_timer_label = NodePath("")
 player_model = NodePath("Mesh")
 
 [node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1356562291]
@@ -410,6 +431,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1803743, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_4awy0")
 mesh = SubResource("BoxMesh_gohb4")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Player" unique_id=1549105266]
+light_color = Color(0.60960835, 0.60960835, 0.60960835, 1)
+omni_range = 1.924
 
 [node name="APT" type="Node" parent="." unique_id=769252562]
 
@@ -494,6 +519,8 @@ transform = Transform3D(1505.7505, 0, 0, 0, 1505.7505, 0, 0, 0, 1505.7505, -102.
 [node name="pPlane12" type="MeshInstance3D" parent="APT/APT_ceilingnfloor/RootNode/ApartmentLayout/APT_ceilfloor/pPlane1" unique_id=1211767876]
 transform = Transform3D(1.0376577, 0, 0, 0, 1.0376577, 0, 0, 0, 1.0376577, 0.0003399849, -0.00038430386, 0.00026500225)
 mesh = SubResource("ArrayMesh_yj7ko")
+script = ExtResource("15_mld33")
+Type = "Level"
 
 [node name="StaticBody3D" type="StaticBody3D" parent="APT/APT_ceilingnfloor/RootNode/ApartmentLayout/APT_ceilfloor/pPlane1/pPlane12" unique_id=1528182840]
 collision_layer = 2
@@ -529,3 +556,16 @@ shape = SubResource("CapsuleShape3D_7mk5h")
 
 [node name="Marker3D" type="Marker3D" parent="StickGrabbable" unique_id=1669862472]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.72707176, 0)
+
+[node name="dad" parent="." unique_id=290075944 instance=ExtResource("16_uw3us")]
+transform = Transform3D(-0.9139962, 0, 0.40572265, 0, 1, 0, -0.40572265, 0, -0.9139962, -3.7974615, -0.021721486, -0.8110368)
+
+[node name="mum" parent="." unique_id=1787731623 instance=ExtResource("17_a67nc")]
+transform = Transform3D(-0.9999868, 0, 0.0051297043, 0, 1, 0, -0.0051297043, 0, -0.9999868, -3.1513257, -0.014552036, -0.46246457)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=944913186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0778089, 1.258786, -6.579974)
+amount = 400
+lifetime = 21.55
+process_material = SubResource("ParticleProcessMaterial_mld33")
+draw_pass_1 = SubResource("SphereMesh_6vg8o")

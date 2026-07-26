@@ -92,11 +92,7 @@ carve={
 [internationalization]
 
 locale/translations_pot_files=PackedStringArray("res://Dialouge/Birthday.dialogue", "res://Dialouge/Classroom.dialogue", "res://Dialouge/Diagnosis.dialogue", "res://Dialouge/DoctorNote.dialogue", "res://Dialouge/Halloween.dialogue")
->>>>>>> 56fe7d7265bcfb419dadf576af3ab455999064c7
-
-[layer_names]
-
-3d_physics/layer_1="player"
+">>>>>>>56fe7d7265bcfb419dadf576af3ab455999064c7[layer_names]3d_physics/layer_1"="player"
 3d_physics/layer_2="world"
 3d_physics/layer_3="interactions"
 enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
