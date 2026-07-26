@@ -335,3 +335,6 @@ func freeze_movement(should_freeze: bool) -> void:
 	is_frozen = should_freeze
 	if should_freeze:
 		velocity = Vector3.ZERO
+		
+func get_player_bounds()-> AABB:
+	return $Mesh.get_aabb();
