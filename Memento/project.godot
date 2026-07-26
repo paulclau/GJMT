@@ -16,7 +16,7 @@ General/should_load_by_name=true
 [application]
 
 config/name="GJMT"
-run/main_scene="uid://cetejyr0a5vmt"
+run/main_scene="uid://cefx2n3s2sge7"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
 

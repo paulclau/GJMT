@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://b2d2o7cw8vv72" path="res://Assets/Textures/APT_ceilingfloor/standardSurface1_emissive.png" id="11_6k04a"]
 [ext_resource type="Texture2D" uid="uid://byvhljh8c2gay" path="res://Assets/Textures/APT_ceilingfloor/standardSurface1_normal.png" id="12_vcm8k"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="13_lew0y"]
-[ext_resource type="PackedScene" uid="uid://nkaoqldtonb7" path="res://Assets/PINATA.glb" id="14_iepm1"]
+[ext_resource type="PackedScene" uid="uid://bmx53qo5vvt2k" path="res://Assets/PINATA.glb" id="14_iepm1"]
 [ext_resource type="Script" uid="uid://dn5upcqqp6qjl" path="res://stickgrabbable.gd" id="15_ibs6p"]
 [ext_resource type="Script" uid="uid://da4jxcrdrpko" path="res://Scenes/groundtype.gd" id="15_mld33"]
 [ext_resource type="PackedScene" uid="uid://bpig5p2mukshp" path="res://Assets/char/Casual Character by Quaternius - kZ3DmIoGip.glb" id="16_uw3us"]

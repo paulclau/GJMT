@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://d164fha2dhljl"]
+
+[ext_resource type="PackedScene" uid="uid://bvikc0mycae4a" path="res://Assets/char/Pumpkin by Quaternius - bvLvqnU1jX.glb" id="1_u0ca6"]
+[ext_resource type="Script" uid="uid://c4vmycplfns0m" path="res://Scripts/SceneTransitionInteractable.gd" id="2_yom42"]
+[ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="3_blx1f"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
+radius = 1.0
+
+[node name="Node3D" type="Node3D" unique_id=157364086]
+
+[node name="Pumpkoin" parent="." unique_id=1394621421 instance=ExtResource("1_u0ca6")]
+transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
+
+[node name="SceneTransitionInteractable" type="Node3D" parent="Pumpkoin" unique_id=276440399]
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+script = ExtResource("2_yom42")
+prompt_text = "Halloween"
+
+[node name="InteractionArea" parent="Pumpkoin/SceneTransitionInteractable" unique_id=1023657923 instance=ExtResource("3_blx1f")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pumpkoin/SceneTransitionInteractable/InteractionArea" unique_id=482123678]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 9.400612, 0)
+shape = SubResource("SphereShape3D_ahg1b")
+debug_color = Color(0.85882354, 0.18431373, 0.7764706, 1)
