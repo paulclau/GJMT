@@ -8,6 +8,11 @@
 
 config_version=5
 
+[Fmod]
+
+General/banks_path="res://Assets/Audio Banks/Desktop"
+General/should_load_by_name=true
+
 [application]
 
 config/name="GJMT"
