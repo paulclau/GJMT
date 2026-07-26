@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://djgu8lx5oakot"]
+
+[ext_resource type="PackedScene" uid="uid://c6rp8h1qplyqr" path="res://Scenes/Player/Player.tscn" id="1_8xb05"]
+[ext_resource type="PackedScene" uid="uid://33cecttgih8b" path="res://Scenes/Interactable/SceneTransitionInteractable.tscn" id="1_laf88"]
+
+[sub_resource type="Environment" id="Environment_ahg1b"]
+
+[node name="World-2" type="Node3D" unique_id=477984884]
+
+[node name="Map" type="Node3D" parent="." unique_id=884814050]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map" unique_id=826463498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+collision_layer = 2
+size = Vector3(20, 1, 20)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map" unique_id=655096925]
+environment = SubResource("Environment_ahg1b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map" unique_id=363716492]
+transform = Transform3D(1, 0, 0, 0, 0.3183893, 0.94796, 0, -0.94796, 0.3183893, 0, 0, 0)
+
+[node name="SceneTransitionInteractable" parent="Map" unique_id=276440399 instance=ExtResource("1_laf88")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4.2576113)
+target_scene_path = "uid://plgqgc366oje"
+prompt_text = "travel to World"
+
+[node name="Player" parent="." unique_id=285178599 instance=ExtResource("1_8xb05")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

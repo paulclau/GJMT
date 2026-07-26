@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cxeeu0t5v1538" path="res://Scripts/WheelChair.gd" id="3_p70al"]
 [ext_resource type="PackedScene" uid="uid://7ipix0871gew" path="res://Scenes/Interactable/InteractionArea/InteractionArea.tscn" id="4_45d1s"]
 [ext_resource type="PackedScene" uid="uid://13jdg33yhx1" path="res://Scenes/Interactable/HideAndSeek/HideSeekNPC.tscn" id="6_q2d71"]
+[ext_resource type="PackedScene" uid="uid://33cecttgih8b" path="res://Scenes/Interactable/SceneTransitionInteractable.tscn" id="7_uo7di"]
 [ext_resource type="PackedScene" uid="uid://cdavqhvjycqri" path="res://Scenes/Interactable/HideAndSeek/HideAndSeekManager.tscn" id="8_uo7di"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_uo7di"]
@@ -51,6 +52,9 @@ albedo_color = Color(0.47058824, 0.8039216, 0.14117648, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_kwl8l"]
 material = SubResource("StandardMaterial3D_8l3nt")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ahg1b"]
+height = 0.4
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
@@ -229,6 +233,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.294, 1, 5.306)
 
 [node name="HiderMarker3" type="Marker3D" parent="Map" unique_id=955434021]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.855, 1, 7.553)
+
+[node name="SceneTransitionInteractable" parent="Map" unique_id=276440399 instance=ExtResource("7_uo7di")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.632742, 1, 4.886565)
+target_scene_path = "uid://djgu8lx5oakot"
+prompt_text = "travel to World-2"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map/SceneTransitionInteractable" unique_id=1896031707]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+mesh = SubResource("CylinderMesh_ahg1b")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=285178599 node_paths=PackedStringArray("carve_reticle", "carve_timer_label", "player_model") groups=["player"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

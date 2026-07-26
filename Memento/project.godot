@@ -23,6 +23,7 @@ config/icon="res://Assets/icon.svg"
 
 InteractionManager="*uid://cyx2okrxrhasq"
 FmodManager="*uid://cds10pm7hwn3p"
+SceneLoader="*uid://cmx3d6rjg501t"
 
 [display]
 
