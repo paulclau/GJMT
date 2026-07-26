@@ -143,7 +143,7 @@ func exit_carve_mode() -> void:
 	
 	if carve_reticle:
 		carve_reticle.hide()
-	# carve_timer_label intentionally NOT hidden here — stays visible so
+	# carve_timer_label intentionally NOT hidden here, stays visible so
 	# the player can see time still counting down after leaving carve mode.
 	
 	if player_model:

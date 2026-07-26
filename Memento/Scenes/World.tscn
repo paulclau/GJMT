@@ -59,6 +59,7 @@ height = 0.4
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
+radius = 0.1
 
 [node name="World" type="Node3D" unique_id=138928880]
 
@@ -236,8 +237,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.855, 1, 7.553)
 
 [node name="SceneTransitionInteractable" parent="Map" unique_id=276440399 instance=ExtResource("7_uo7di")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.632742, 1, 4.886565)
-target_scene_path = "uid://djgu8lx5oakot"
-prompt_text = "travel to World-2"
+target_scene_path = "uid://duhx4q4ilag63"
+prompt_text = "travel to the classroom"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/SceneTransitionInteractable" unique_id=1896031707]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)

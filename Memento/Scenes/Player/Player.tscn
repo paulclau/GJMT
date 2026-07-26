@@ -5,6 +5,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ahg1b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qbkls"]
+radius = 0.1
 
 [node name="Player" type="CharacterBody3D" unique_id=285178599 groups=["player"]]
 collision_mask = 2
