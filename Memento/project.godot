@@ -8,6 +8,11 @@
 
 config_version=5
 
+[Fmod]
+
+General/banks_path="res://Assets/Audio Banks/Desktop"
+General/should_load_by_name=true
+
 [application]
 
 config/name="GJMT"
@@ -17,6 +22,7 @@ config/icon="res://Assets/icon.svg"
 [autoload]
 
 InteractionManager="*uid://cyx2okrxrhasq"
+FmodManager="*uid://cds10pm7hwn3p"
 
 [display]
 
@@ -24,6 +30,10 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/fmod/plugin.cfg")
 
 [input]
 
