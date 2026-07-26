@@ -21,3 +21,10 @@ theme_override_constants/outline_size = 4
 text = "[E] TO INTERACT"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="FmodBankLoader" type="FmodBankLoader" parent="." unique_id=1835866245]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Interaction.bank"]
+
+[node name="FmodEventEmitter3D" type="FmodEventEmitter3D" parent="." unique_id=153993137]
+event_name = "event:/SFX/UI/Interaction"
+event_guid = "{f37f51b9-851c-4670-be29-4d08d0c97f4e}"
