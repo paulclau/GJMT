@@ -15,7 +15,7 @@ General/banks_path="res://Assets/Audio Banks/Desktop"
 [application]
 
 config/name="GJMT"
-run/main_scene="uid://chj1d8qx4gyfh"
+run/main_scene="uid://cetejyr0a5vmt"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://Assets/icon.svg"
 
