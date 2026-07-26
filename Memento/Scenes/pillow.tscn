@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c4py4028gbyk7"]
+
+[ext_resource type="Script" path="res://Scenes/Pillow/pillow.gd" id="1_galg5"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ywgq0"]
+size = Vector3(1.5526733, 0.4975586, 2.210022)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d3h4u"]
+points = PackedVector3Array(0.77633667, 0.2487793, 1.105011, 0.77633667, -0.2487793, 1.105011, 0.77633667, 0.2487793, -1.105011, -0.77633667, 0.2487793, 1.105011, -0.77633667, -0.2487793, 1.105011, 0.77633667, -0.2487793, -1.105011, -0.77633667, 0.2487793, -1.105011, -0.77633667, -0.2487793, -1.105011)
+
+[node name="Pillow" type="Node3D" unique_id=954301174]
+script = ExtResource("1_galg5")
+lifetime = 3.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=605465546]
+transform = Transform3D(1.2793785, 0, 0, 0, 1.2793785, 0, 0, 0, 1.2793785, 0.010953352, -0.2512207, -0.16543579)
+mesh = SubResource("BoxMesh_ywgq0")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=419847829]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=418904428]
+shape = SubResource("ConvexPolygonShape3D_d3h4u")

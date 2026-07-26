@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dc2fbc8wv7qi3"]
+
+[ext_resource type="Script" path="res://Scripts/PillowSpawning.gd" id="1_ruj7l"]
+[ext_resource type="PackedScene" uid="uid://c6rp8h1qplyqr" path="res://Scenes/Player/Player.tscn" id="1_vcgka"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ruj7l"]
+sky_top_color = Color(0.09862233, 0.4339258, 0.8509813, 1)
+sky_horizon_color = Color(0.89695156, 0.51499337, 0.68128353, 1)
+sky_energy_multiplier = 0.7
+ground_bottom_color = Color(0.10906277, 0.57400465, 0.79513055, 1)
+ground_horizon_color = Color(0, 0.19215687, 0.47058824, 1)
+
+[sub_resource type="Sky" id="Sky_45d1s"]
+sky_material = SubResource("ProceduralSkyMaterial_ruj7l")
+
+[sub_resource type="Environment" id="Environment_fxrh3"]
+background_mode = 2
+sky = SubResource("Sky_45d1s")
+
+[node name="Node3D" type="Node3D" unique_id=1740177033]
+
+[node name="Player" parent="." unique_id=285178599 instance=ExtResource("1_vcgka")]
+
+[node name="PillowSpawner" type="Node" parent="." unique_id=2101066564]
+script = ExtResource("1_ruj7l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1919981868]
+environment = SubResource("Environment_fxrh3")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1769493572]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true

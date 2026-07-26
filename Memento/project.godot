@@ -11,6 +11,7 @@ config_version=5
 [Fmod]
 
 General/banks_path="res://Assets/Audio Banks/Desktop"
+General/should_load_by_name=true
 
 [application]
 
@@ -27,9 +28,9 @@ buses/default_bus_layout="uid://t664sakv65uk"
 
 InteractionManager="*uid://cyx2okrxrhasq"
 FmodManager="*uid://cds10pm7hwn3p"
+SceneLoader="*uid://cmx3d6rjg501t"
 DialogueManager="*uid://c3rodes2l3gxb"
 GameState="*uid://cvaqva8wesjud"
-SceneLoader="*uid://cbwmrnp0af35y"
 AppConfig="*uid://cjke6crjg14a0"
 ProjectMusicController="*uid://r5t485lr3p7t"
 ProjectUISoundController="*uid://cc37235kj4384"
