@@ -35,6 +35,9 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 [sub_resource type="SphereShape3D" id="SphereShape3D_ahg1b"]
 radius = 1.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_mxsx2"]
+size = Vector3(1.1, 1.1, 1.1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kn06e"]
 albedo_color = Color(0.88235295, 0.17254902, 0, 1)
 
@@ -211,6 +214,15 @@ shape = SubResource("SphereShape3D_ahg1b")
 [node name="SeatPoint" type="Marker3D" parent="Map/WheelChair" unique_id=615752246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57002264, 0)
 
+[node name="Area3D" type="Area3D" parent="Map/WheelChair" unique_id=1599487277]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/WheelChair/Area3D" unique_id=2094256265]
+shape = SubResource("BoxShape3D_mxsx2")
+
+[node name="metalsound" type="FmodEventEmitter3D" parent="Map/WheelChair" unique_id=1346490404]
+event_name = "event:/SFX/Char/Metal Collide"
+event_guid = "{20343bbb-a194-464c-892c-13b1561bebe5}"
+
 [node name="HideSeekNPC1" parent="Map" unique_id=896181813 instance=ExtResource("6_q2d71")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7452011, 1.0035205, -6.8338327)
 
@@ -251,7 +263,7 @@ carve_timer_label = NodePath("../CarveUI/CarveTimerLabel")
 player_model = NodePath("Mesh")
 
 [node name="FmodBankLoader" type="FmodBankLoader" parent="Player" unique_id=1275748488]
-bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank"]
+bank_paths = ["res://Assets/Audio Banks/Desktop/Master.strings.bank", "res://Assets/Audio Banks/Desktop/Master.bank", "res://Assets/Audio Banks/Desktop/Footsteps.bank", "res://Assets/Audio Banks/Desktop/WheelChair.bank", "res://Assets/Audio Banks/Desktop/Pumpkin Slice.bank", "res://Assets/Audio Banks/Desktop/Metal Collide.bank"]
 
 [node name="Mesh" type="MeshInstance3D" parent="Player" unique_id=104790120]
 mesh = SubResource("CapsuleMesh_ahg1b")
@@ -315,3 +327,5 @@ found_popup_label = NodePath("../HideAndSeekUI/FoundPopupLabel")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="HideAndSeekManager" unique_id=933292081]
 radius = 0.1
+
+[connection signal="body_entered" from="Map/WheelChair/Area3D" to="Map/WheelChair" method="_on_area_3d_body_entered"]
