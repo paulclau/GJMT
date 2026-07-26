@@ -73,6 +73,8 @@ var standing_camera_mount_y: float = 0.0
 var is_frozen: bool = false
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+var b_is_on_pillow = false;
+
 # FMOD 
 @onready var footsteps = get_node_or_null("Footsteps")
 @onready var wheelchair = get_node_or_null("wheel")

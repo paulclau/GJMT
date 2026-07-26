@@ -8,6 +8,9 @@ size = Vector3(1.5526733, 0.4975586, 2.210022)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d3h4u"]
 points = PackedVector3Array(0.77633667, 0.2487793, 1.105011, 0.77633667, -0.2487793, 1.105011, 0.77633667, 0.2487793, -1.105011, -0.77633667, 0.2487793, 1.105011, -0.77633667, -0.2487793, 1.105011, 0.77633667, -0.2487793, -1.105011, -0.77633667, 0.2487793, -1.105011, -0.77633667, -0.2487793, -1.105011)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ywgq0"]
+size = Vector3(1.5516891, 0.65185547, 2.2108154)
+
 [node name="Pillow" type="Node3D" unique_id=954301174]
 script = ExtResource("1_rwemy")
 lifetime = 3.0
@@ -21,3 +24,12 @@ collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=418904428]
 shape = SubResource("ConvexPolygonShape3D_d3h4u")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=816317106]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=672104637]
+transform = Transform3D(1.2793785, 0, 0, 0, 1.2793785, 0, 0, 0, 1.2793785, 0.011465805, -0.028516382, -0.17176083)
+shape = SubResource("BoxShape3D_ywgq0")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
