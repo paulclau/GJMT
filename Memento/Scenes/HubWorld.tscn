@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dp2ypijuc8opg" path="res://Scripts/PillowSpawning.gd" id="1_ruj7l"]
 [ext_resource type="Script" uid="uid://dn7s43co15sgj" path="res://Scripts/Player.gd" id="2_ruj7l"]
+[ext_resource type="PackedScene" uid="uid://d164fha2dhljl" path="res://Scenes/Interactable/PumpkinLevelLoader.tscn" id="3_fxrh3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ruj7l"]
 sky_top_color = Color(0.09862233, 0.4339258, 0.8509813, 1)
@@ -30,6 +31,7 @@ albedo_color = Color(0.4627451, 0.28235295, 0.2, 1)
 
 [node name="PillowSpawner" type="Node" parent="." unique_id=2101066564]
 script = ExtResource("1_ruj7l")
+SpawnInterval = 0.5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1919981868]
 environment = SubResource("Environment_fxrh3")
@@ -109,3 +111,6 @@ event_name = "event:/SFX/Prop/Clock Loop"
 event_guid = "{abc062ed-3481-4018-a63d-7d5c56bcd517}"
 autoplay = true
 volume = 0.3
+
+[node name="Node3D" parent="." unique_id=157364086 instance=ExtResource("3_fxrh3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)

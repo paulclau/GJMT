@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bodso358c51a5"]
+
+[resource]
+resource_name = "Orange"
+albedo_color = Color(0.6390323, 0.39044932, 0.2126844, 1)
+metallic = 0.4
+roughness = 0.4150871
+metadata/extras = {
+"fromFBX": {
+"isTruePBR": false,
+"shadingModel": "Phong"
+}
+}

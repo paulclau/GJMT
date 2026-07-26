@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dvgmk16q7bjmf"]
+
+[resource]
+resource_name = "Brown"
+albedo_color = Color(0.39603996, 0.32104507, 0.21209191, 1)
+metallic = 0.4
+roughness = 0.4150871
+metadata/extras = {
+"fromFBX": {
+"isTruePBR": false,
+"shadingModel": "Phong"
+}
+}

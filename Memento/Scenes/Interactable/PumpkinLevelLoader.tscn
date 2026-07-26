@@ -13,13 +13,13 @@ radius = 1.0
 transform = Transform3D(20, 0, 0, 0, 20, 0, 0, 0, 20, 0, 0, 0)
 
 [node name="SceneTransitionInteractable" type="Node3D" parent="Pumpkoin" unique_id=276440399]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, -0.15158014, 0)
 script = ExtResource("2_yom42")
 prompt_text = "Halloween"
 
 [node name="InteractionArea" parent="Pumpkoin/SceneTransitionInteractable" unique_id=1023657923 instance=ExtResource("3_blx1f")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pumpkoin/SceneTransitionInteractable/InteractionArea" unique_id=482123678]
-transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 9.400612, 0)
+transform = Transform3D(18.8, 0, 0, 0, 18.8, 0, 0, 0, 18.8, 0.14999008, 9.400612, 0)
 shape = SubResource("SphereShape3D_ahg1b")
 debug_color = Color(0.85882354, 0.18431373, 0.7764706, 1)
